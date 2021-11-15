@@ -24,10 +24,12 @@
     "test": "jest test",
     "type-check": "tsc --project ./tsconfig.json --noEmit"
   },
-  "dependencies": {
+  "dependencies": {},
+  "peerDependencies": {
     "@shapeshiftoss/types": "^1.11.4"
   },
   "devDependencies": {
+    "@shapeshiftoss/types": "^1.11.4",
     "axios": "^0.24.0"
   }
 }
