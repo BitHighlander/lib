@@ -2725,7 +2725,7 @@
     bignumber.js "^9.0.1"
     ethers "^5.4.0"
 
-"@shapeshiftoss/unchained-client@^3.7.0":
+"@bithighlander/unchained-client@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@shapeshiftoss/unchained-client/-/unchained-client-3.7.0.tgz#0e60d3f8239907e8fa1471edb3c0bec88d59e6a7"
   integrity sha512-j7N/dqXdrrzpRNGtG3kY5orvovGNS/zeCt0sf92trbxLkr1DB5jUBFoglislyjxnZGWJIOPxyXWUZuz75rp2pg==

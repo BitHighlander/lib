@@ -9,7 +9,7 @@
 import { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { NativeAdapterArgs, NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
 import { BIP32Params, chainAdapters, ChainTypes, UtxoAccountType } from '@shapeshiftoss/types'
-import * as unchained from '@shapeshiftoss/unchained-client'
+import * as unchained from '@bithighlander/unchained-client'
 
 import * as bitcoin from './BitcoinChainAdapter'
 

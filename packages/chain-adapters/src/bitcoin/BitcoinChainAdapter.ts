@@ -15,7 +15,7 @@ import {
   NetworkTypes,
   UtxoAccountType
 } from '@shapeshiftoss/types'
-import { bitcoin } from '@shapeshiftoss/unchained-client'
+import { bitcoin } from '@bithighlander/unchained-client'
 import coinSelect from 'coinselect'
 import split from 'coinselect/split'
 import WAValidator from 'multicoin-address-validator'

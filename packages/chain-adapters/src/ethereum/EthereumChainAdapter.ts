@@ -7,7 +7,7 @@ import {
   ContractTypes,
   NetworkTypes
 } from '@shapeshiftoss/types'
-import { ethereum, Token } from '@shapeshiftoss/unchained-client'
+import { ethereum, Token } from '@bithighlander/unchained-client'
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import isEmpty from 'lodash/isEmpty'
