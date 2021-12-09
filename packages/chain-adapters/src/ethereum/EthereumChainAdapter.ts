@@ -9,6 +9,7 @@ import {
   NetworkTypes
 } from '@shapeshiftoss/types'
 import { ethereum } from '@shapeshiftoss/unchained-client'
+import { Status } from '@shapeshiftoss/unchained-tx-parser'
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import WAValidator from 'multicoin-address-validator'
@@ -87,10 +88,8 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Ethereum> {
   }
 
   async getTxHistory({
-    pubkey
-  }: ethereum.api.V1ApiGetTxHistoryRequest): Promise<
-    chainAdapters.TxHistoryResponse<ChainTypes.Ethereum>
-  > {
+                       pubkey
+                     }: ethereum.api.V1ApiGetTxHistoryRequest): Promise<chainAdapters.TxHistoryResponse<ChainTypes.Ethereum>> {
     try {
       const { data } = await this.providers.http.getTxHistory({ pubkey })
 
@@ -203,13 +202,11 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Ethereum> {
   }
 
   async getFeeData({
-    to,
-    value,
-    chainSpecific: { contractAddress, from, contractData },
-    sendMax = false
-  }: chainAdapters.GetFeeDataInput<ChainTypes.Ethereum>): Promise<
-    chainAdapters.FeeDataEstimate<ChainTypes.Ethereum>
-  > {
+                     to,
+                     value,
+                     chainSpecific: { contractAddress, from, contractData },
+                     sendMax = false
+                   }: chainAdapters.GetFeeDataInput<ChainTypes.Ethereum>): Promise<chainAdapters.FeeDataEstimate<ChainTypes.Ethereum>> {
     const { data: responseData } = await axios.get<chainAdapters.ZrxGasApiResponse>(
       'https://gas.api.0x.org/'
     )
@@ -296,7 +293,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Ethereum> {
     await this.providers.ws.subscribeTxs(
       subscriptionId,
       { topic: 'txs', addresses: [address] },
-      (msg) => {
+      (msg: { transfers: any[]; address: any; blockHash: any; blockHeight: any; blockTime: any; caip2: any; confirmations: any; fee: any; status: Status; trade: any; txid: any }) => {
         const transfers = msg.transfers.map<chainAdapters.TxTransfer>((transfer) => ({
           caip19: transfer.caip19,
           from: transfer.from,
@@ -332,7 +329,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Ethereum> {
           txid: msg.txid
         })
       },
-      (err) => onError({ message: err.message })
+      (err: { message: any }) => onError({ message: err.message })
     )
   }
 

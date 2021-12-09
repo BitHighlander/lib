@@ -16,6 +16,7 @@ import {
   UtxoAccountType
 } from '@shapeshiftoss/types'
 import { bitcoin } from '@shapeshiftoss/unchained-client'
+import { Status } from '@shapeshiftoss/unchained-tx-parser'
 import coinSelect from 'coinselect'
 import split from 'coinselect/split'
 import WAValidator from 'multicoin-address-validator'
@@ -78,7 +79,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
         scriptType: accountTypeToScriptType[accountType]
       }
     ])
-    if (!publicKeys?.[0]) throw new Error("couldn't get public key")
+    if (!publicKeys?.[0]) throw new Error('couldn\'t get public key')
 
     if (accountType) {
       return { xpub: convertXpubVersion(publicKeys[0].xpub, accountType) }
@@ -190,7 +191,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
         )
       }
       if (!coinSelectResult || !coinSelectResult.inputs || !coinSelectResult.outputs) {
-        throw new Error("BitcoinChainAdapter: coinSelect didn't select coins")
+        throw new Error('BitcoinChainAdapter: coinSelect didn\'t select coins')
       }
 
       const { inputs, outputs } = coinSelectResult
@@ -270,13 +271,11 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
   }
 
   async getFeeData({
-    to,
-    value,
-    chainSpecific: { pubkey },
-    sendMax = false
-  }: chainAdapters.GetFeeDataInput<ChainTypes.Bitcoin>): Promise<
-    chainAdapters.FeeDataEstimate<ChainTypes.Bitcoin>
-  > {
+                     to,
+                     value,
+                     chainSpecific: { pubkey },
+                     sendMax = false
+                   }: chainAdapters.GetFeeDataInput<ChainTypes.Bitcoin>): Promise<chainAdapters.FeeDataEstimate<ChainTypes.Bitcoin>> {
     const feeData = await this.providers.http.getNetworkFees()
 
     if (!to || !value || !pubkey) throw new Error('to, from, value and xpub are required')
@@ -356,11 +355,11 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
   }
 
   async getAddress({
-    wallet,
-    bip32Params = ChainAdapter.defaultBIP32Params,
-    accountType = UtxoAccountType.SegwitP2sh,
-    showOnDevice = false
-  }: chainAdapters.bitcoin.GetAddressInput): Promise<string> {
+                     wallet,
+                     bip32Params = ChainAdapter.defaultBIP32Params,
+                     accountType = UtxoAccountType.SegwitP2sh,
+                     showOnDevice = false
+                   }: chainAdapters.bitcoin.GetAddressInput): Promise<string> {
     if (!supportsBTC(wallet)) {
       throw new Error('BitcoinChainAdapter: wallet does not support btc')
     }
@@ -378,7 +377,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
     }
 
     const path = toPath({ ...bip32Params, index })
-    const addressNList = path ? bip32ToAddressNList(path) : bip32ToAddressNList("m/84'/0'/0'/0/0")
+    const addressNList = path ? bip32ToAddressNList(path) : bip32ToAddressNList('m/84\'/0\'/0\'/0/0')
     const btcAddress = await wallet.btcGetAddress({
       addressNList,
       coin: this.coinName,
@@ -414,7 +413,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
     await this.providers.ws.subscribeTxs(
       subscriptionId,
       { topic: 'txs', addresses },
-      (msg) => {
+      (msg: { transfers: any[]; address: any; blockHash: any; blockHeight: any; blockTime: any; caip2: any; confirmations: any; fee: any; status: Status; trade: any; txid: any }) => {
         const transfers = msg.transfers.map<chainAdapters.TxTransfer>((transfer) => ({
           caip19: transfer.caip19,
           from: transfer.from,
@@ -438,7 +437,7 @@ export class ChainAdapter implements IChainAdapter<ChainTypes.Bitcoin> {
           txid: msg.txid
         })
       },
-      (err) => onError({ message: err.message })
+      (err: { message: any }) => onError({ message: err.message })
     )
   }
 
