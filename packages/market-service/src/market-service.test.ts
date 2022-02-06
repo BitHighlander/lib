@@ -1,4 +1,4 @@
-import { HistoryTimeframe } from '@shapeshiftoss/types'
+import { HistoryTimeframe } from '@bithighlander/types'
 
 import {
   mockCGFindAllData,

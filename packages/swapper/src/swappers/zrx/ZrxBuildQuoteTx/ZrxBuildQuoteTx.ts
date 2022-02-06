@@ -4,7 +4,7 @@ import {
   Quote,
   QuoteResponse,
   SwapperType
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 import * as rax from 'retry-axios'

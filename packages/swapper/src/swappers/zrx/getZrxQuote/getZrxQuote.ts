@@ -5,7 +5,7 @@ import {
   QuoteResponse,
   SwapperType,
   SwapSource
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 

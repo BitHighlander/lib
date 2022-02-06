@@ -1,4 +1,4 @@
-import { chainAdapters, ContractTypes } from '@shapeshiftoss/types'
+import { chainAdapters, ContractTypes } from '@bithighlander/types'
 import { Status, TransferType } from '@shapeshiftoss/unchained-tx-parser'
 
 export * from './bip44'

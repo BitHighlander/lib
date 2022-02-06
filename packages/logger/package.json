@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/logger",
+  "name": "@bithighlander/logger",
   "version": "1.0.3",
   "description": "A simple JSON logger with no external dependencies",
   "main": "dist/index.js",

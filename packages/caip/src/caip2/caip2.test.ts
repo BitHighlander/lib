@@ -1,4 +1,4 @@
-import { ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, NetworkTypes } from '@bithighlander/types'
 
 import { fromCAIP2, isCAIP2, toCAIP2 } from './caip2'
 

@@ -1,4 +1,4 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { HDWallet } from '@bithighlander/hdwallet-core'
 import { BigNumber } from 'bignumber.js'
 
 export type Allowanceinput = {

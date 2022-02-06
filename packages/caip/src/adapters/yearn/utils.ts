@@ -1,5 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainTypes, ContractTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, ContractTypes, NetworkTypes } from '@bithighlander/types'
 import { Token, Vault, Yearn } from '@yfi/sdk'
 import fs from 'fs'
 import toLower from 'lodash/toLower'

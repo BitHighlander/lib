@@ -1,5 +1,5 @@
-import { toCAIP19 } from '@shapeshiftoss/caip/dist/caip19/caip19'
-import { ChainTypes, ContractTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { toCAIP19 } from '@bithighlander/caip/dist/caip19/caip19'
+import { ChainTypes, ContractTypes, NetworkTypes } from '@bithighlander/types'
 
 import { YearnTokenMarketCapService } from './yearn-tokens'
 import { mockYearnTokenRestData } from './yearnMockData'

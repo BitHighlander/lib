@@ -1,6 +1,6 @@
-import { BTCInputScriptType, BTCOutputScriptType } from '@shapeshiftoss/hdwallet-core'
-import { Asset } from '@shapeshiftoss/types'
-import { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
+import { BTCInputScriptType, BTCOutputScriptType } from '@bithighlander/hdwallet-core'
+import { Asset } from '@bithighlander/types'
+import { BIP44Params, UtxoAccountType } from '@bithighlander/types'
 import { decode, encode } from 'bs58check'
 
 /**

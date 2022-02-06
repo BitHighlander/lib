@@ -1,4 +1,4 @@
-import { CAIP2, caip2, caip19 } from '@shapeshiftoss/caip'
+import { CAIP2, caip2, caip19 } from '@bithighlander/caip'
 import {
   bip32ToAddressNList,
   BTCOutputAddressType,
@@ -8,14 +8,14 @@ import {
   HDWallet,
   PublicKey,
   supportsBTC
-} from '@shapeshiftoss/hdwallet-core'
+} from '@bithighlander/hdwallet-core'
 import {
   BIP44Params,
   chainAdapters,
   ChainTypes,
   NetworkTypes,
   UtxoAccountType
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import { bitcoin } from '@shapeshiftoss/unchained-client'
 import coinSelect from 'coinselect'
 import split from 'coinselect/split'

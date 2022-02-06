@@ -3,11 +3,11 @@
 ## Getting Started
 
 ```sh
-yarn add @shapeshiftoss/types
+yarn add @bithighlander/types
 ```
 
 ## Usage
 
 ```ts
-import { Asset, ChainTypes, Network } from '@shapeshiftoss/types'
+import { Asset, ChainTypes, Network } from '@bithighlander/types'
 ```

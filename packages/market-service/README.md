@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-import { getDefaultMarketService } from '@shapeshiftoss/market-service'
+import { getDefaultMarketService } from '@bithighlander/market-service'
 
 const getAssetData = async () => {
     const assetData = await getDefaultMarketService().getAssetData(network, contractAddress)

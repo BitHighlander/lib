@@ -4,7 +4,7 @@ import {
   ChainTypes,
   ContractTypes,
   NetworkTypes
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 
 export const baseAssets: Array<BaseAsset> = [
   {

@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/caip",
+  "name": "@bithighlander/caip",
   "version": "1.10.0",
   "description": "CAIP Implementation",
   "homepage": "",
@@ -29,10 +29,10 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@shapeshiftoss/types": "^1.13.1"
+    "@bithighlander/types": "^1.13.1"
   },
   "devDependencies": {
-    "@shapeshiftoss/types": "^1.13.1",
+    "@bithighlander/types": "^1.13.1",
     "@yfi/sdk": "^1.0.27",
     "axios": "^0.24.0"
   }

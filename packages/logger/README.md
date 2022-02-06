@@ -1,17 +1,17 @@
-# @shapeshiftoss/logger
+# @bithighlander/logger
 
 Shapeshift's JSON logging library.
 
 ## Installation
 
 ```bash
-yarn add @shapeshiftoss/logger
+yarn add @bithighlander/logger
 ```
 
 ## Initialization
 
 ```javascript
-import { Logger } from '@shapeshiftoss/logger'
+import { Logger } from '@bithighlander/logger'
 
 const logger = new Logger({
   // name of the app or service

@@ -1,7 +1,7 @@
 import 'dotenv/config'
 
-import { caip19 } from '@shapeshiftoss/caip'
-import { BaseAsset, ChainTypes, NetworkTypes, TokenAsset } from '@shapeshiftoss/types'
+import { caip19 } from '@bithighlander/caip'
+import { BaseAsset, ChainTypes, NetworkTypes, TokenAsset } from '@bithighlander/types'
 import axios from 'axios'
 import fs from 'fs'
 import { chunk } from 'lodash'

@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/investor-yearn",
+  "name": "@bithighlander/investor-yearn",
   "version": "1.1.0",
   "description": "An api layer for interaction with the ShapeShift Yearn Router Contract and the Yearn Vault contracts",
   "main": "dist/index.js",
@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.5.3",
-    "@shapeshiftoss/chain-adapters": "^1.31.1",
-    "@shapeshiftoss/hdwallet-core": "^1.18.4",
-    "@shapeshiftoss/types": "^1.21.0",
+    "@bithighlander/chain-adapters": "^1.31.1",
+    "@bithighlander/hdwallet-core": "latest",
+    "@bithighlander/types": "^1.21.0",
     "@yfi/sdk": "^1.0.27",
     "bignumber.js": "^9.0.2",
     "lodash": "^4.17.21",

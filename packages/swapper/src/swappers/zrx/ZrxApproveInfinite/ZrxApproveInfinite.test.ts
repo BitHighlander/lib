@@ -1,4 +1,4 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { HDWallet } from '@bithighlander/hdwallet-core'
 import Web3 from 'web3'
 
 import { setupQuote } from '../utils/test-data/setupSwapQuote'

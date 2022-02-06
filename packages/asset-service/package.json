@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/asset-service",
+  "name": "@bithighlander/asset-service",
   "version": "1.14.0",
   "description": "Service to return supported asset details",
   "homepage": "",
@@ -29,13 +29,13 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@shapeshiftoss/caip": "^1.4.2",
-    "@shapeshiftoss/types": "^1.13.1"
+    "@bithighlander/caip": "^1.4.2",
+    "@bithighlander/types": "^1.13.1"
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.5.2",
-    "@shapeshiftoss/caip": "^1.4.2",
-    "@shapeshiftoss/types": "^1.13.1",
+    "@bithighlander/caip": "^1.4.2",
+    "@bithighlander/types": "^1.13.1",
     "@types/lodash": "^4.14.172",
     "@yfi/sdk": "^1.0.27",
     "dotenv": "^14.3.0",

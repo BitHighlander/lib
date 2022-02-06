@@ -4,7 +4,7 @@ import {
   ChainTypes,
   ContractTypes,
   NetworkTypes
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import axios from 'axios'
 
 import { AssetService, flattenAssetData, indexAssetData } from './AssetService'

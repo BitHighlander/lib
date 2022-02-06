@@ -1,4 +1,4 @@
-import { ChainTypes, ContractTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, ContractTypes, NetworkTypes } from '@bithighlander/types'
 import axios from 'axios'
 import fs from 'fs'
 

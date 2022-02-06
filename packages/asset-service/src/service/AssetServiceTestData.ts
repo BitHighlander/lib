@@ -5,7 +5,7 @@ import {
   ChainTypes,
   ContractTypes,
   NetworkTypes
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 
 import { IndexedAssetData } from '..'
 

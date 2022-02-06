@@ -1,4 +1,4 @@
-import { UtxoAccountType } from '@shapeshiftoss/types'
+import { UtxoAccountType } from '@bithighlander/types'
 
 import { convertXpubVersion } from './utxoUtils'
 

@@ -1,6 +1,6 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-import { ChainAdapter } from '@shapeshiftoss/chain-adapters'
-import { ChainTypes } from '@shapeshiftoss/types'
+import { ChainAdapter } from '@bithighlander/chain-adapters'
+import { ChainTypes } from '@bithighlander/types'
 import { Vault, Yearn } from '@yfi/sdk'
 import { BigNumber } from 'bignumber.js'
 import { toLower } from 'lodash'

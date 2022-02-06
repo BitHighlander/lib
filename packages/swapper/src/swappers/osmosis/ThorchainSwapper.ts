@@ -1,4 +1,3 @@
-import { CAIP19 } from '@bithighlander/caip'
 import {
   ApprovalNeededOutput,
   Asset,
@@ -14,7 +13,7 @@ import { Swapper } from '../../api'
 
 export class ThorchainSwapper implements Swapper {
   getType() {
-    return SwapperType.Thorchain
+    return 'Osmosis'
   }
 
   async getQuote(): Promise<Quote<ChainTypes, SwapperType>> {
@@ -49,7 +48,7 @@ export class ThorchainSwapper implements Swapper {
     throw new Error('ThorchainSwapper: executeQuote unimplemented')
   }
 
-  getDefaultPair(): [CAIP19, CAIP19] {
+  getDefaultPair(): Pick<Asset, 'chain' | 'symbol' | 'name'>[] {
     throw new Error('ThorchainSwapper: getDefaultPair unimplemented')
   }
 

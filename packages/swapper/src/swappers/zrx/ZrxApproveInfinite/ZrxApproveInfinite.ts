@@ -1,5 +1,5 @@
-import { ChainAdapter } from '@shapeshiftoss/chain-adapters'
-import { ApproveInfiniteInput, ChainTypes, QuoteResponse, SwapperType } from '@shapeshiftoss/types'
+import { ChainAdapter } from '@bithighlander/chain-adapters'
+import { ApproveInfiniteInput, ChainTypes, QuoteResponse, SwapperType } from '@bithighlander/types'
 import { AxiosResponse } from 'axios'
 
 import { SwapError } from '../../../api'

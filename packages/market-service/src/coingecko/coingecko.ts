@@ -1,5 +1,5 @@
-import { adapters } from '@shapeshiftoss/caip'
-import { fromCAIP19 } from '@shapeshiftoss/caip/dist/caip19/caip19'
+import { adapters } from '@bithighlander/caip'
+import { fromCAIP19 } from '@bithighlander/caip/dist/caip19/caip19'
 import {
   ChainTypes,
   FindAllMarketArgs,
@@ -9,7 +9,7 @@ import {
   MarketData,
   MarketDataArgs,
   PriceHistoryArgs
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import omit from 'lodash/omit'

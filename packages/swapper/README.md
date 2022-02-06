@@ -3,7 +3,7 @@
 ## Getting Started
 
 ```sh
-yarn add @shapeshiftoss/swapper
+yarn add @bithighlander/swapper
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ $ swapcli ETH USDC 0.001
 ### Setup
 
 ```ts
-import { SwapperManager, SwapperType, ZrxSwapper } from '@shapeshiftoss/swapper'
+import { SwapperManager, SwapperType, ZrxSwapper } from '@bithighlander/swapper'
 
 // in code
 const manager = new SwapperManager<MyCustomSwapperTypes>()

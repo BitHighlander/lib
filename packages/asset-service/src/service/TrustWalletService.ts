@@ -1,4 +1,4 @@
-import { ChainTypes } from '@shapeshiftoss/types'
+import { ChainTypes } from '@bithighlander/types'
 import Web3 from 'web3'
 
 type TrustWalletServiceProps = {

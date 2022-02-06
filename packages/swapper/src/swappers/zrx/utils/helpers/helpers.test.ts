@@ -1,5 +1,5 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { ChainTypes } from '@shapeshiftoss/types'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { ChainTypes } from '@bithighlander/types'
 import BigNumber from 'bignumber.js'
 import Web3 from 'web3'
 

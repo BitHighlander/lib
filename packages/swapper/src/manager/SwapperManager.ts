@@ -1,4 +1,4 @@
-import { GetQuoteInput, SwapperType } from '@shapeshiftoss/types'
+import { GetQuoteInput, SwapperType } from '@bithighlander/types'
 
 import { Swapper } from '..'
 

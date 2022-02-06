@@ -1,8 +1,8 @@
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
-import { chainAdapters, ChainTypes } from '@shapeshiftoss/types'
+import { ChainAdapterManager } from '@bithighlander/chain-adapters'
+import { chainAdapters, ChainTypes } from '@bithighlander/types'
 import Web3 from 'web3'
 
-jest.mock('@shapeshiftoss/chain-adapters')
+jest.mock('@bithighlander/chain-adapters')
 
 export const chainAdapterMockFuncs = {
   buildBIP44Params: jest.fn(() => ({ purpose: 44, coinType: 60, accountNumber: 0 })),

@@ -1,116 +1,116 @@
-# [@shapeshiftoss/market-service-v1.10.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.9.0...@shapeshiftoss/market-service-v1.10.0) (2022-01-31)
+# [@bithighlander/market-service-v1.10.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.9.0...@bithighlander/market-service-v1.10.0) (2022-01-31)
 
 
 ### Features
 
 * 821 extend yearn vaults ([#335](https://github.com/shapeshift/lib/issues/335)) ([ef7f591](https://github.com/shapeshift/lib/commit/ef7f5919f27a9e5db1b2c064fda741f6566c672d))
 
-# [@shapeshiftoss/market-service-v1.9.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.8.0...@shapeshiftoss/market-service-v1.9.0) (2022-01-27)
+# [@bithighlander/market-service-v1.9.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.8.0...@bithighlander/market-service-v1.9.0) (2022-01-27)
 
 
 ### Features
 
 * extend market service for pricing data on new tokens ([#327](https://github.com/shapeshift/lib/issues/327)) ([d506d99](https://github.com/shapeshift/lib/commit/d506d99c8e35f92c111bccc09a4a73e12430acb5))
 
-# [@shapeshiftoss/market-service-v1.8.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.7.0...@shapeshiftoss/market-service-v1.8.0) (2022-01-03)
+# [@bithighlander/market-service-v1.8.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.7.0...@bithighlander/market-service-v1.8.0) (2022-01-03)
 
 
 ### Features
 
 * short circuit market data calls to providers that don't support that asset ([#292](https://github.com/shapeshift/lib/issues/292)) ([861fc19](https://github.com/shapeshift/lib/commit/861fc19e8bf92a7e84a37a9b61e33a1a10f02d2d))
 
-# [@shapeshiftoss/market-service-v1.7.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.6.0...@shapeshiftoss/market-service-v1.7.0) (2021-12-17)
+# [@bithighlander/market-service-v1.7.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.6.0...@bithighlander/market-service-v1.7.0) (2021-12-17)
 
 
 ### Features
 
 * implement yearn market service ([#273](https://github.com/shapeshift/lib/issues/273)) ([d999850](https://github.com/shapeshift/lib/commit/d999850a5ab73de64b77626c4c36edd3da9f3117))
 
-# [@shapeshiftoss/market-service-v1.6.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.5.2...@shapeshiftoss/market-service-v1.6.0) (2021-12-17)
+# [@bithighlander/market-service-v1.6.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.5.2...@bithighlander/market-service-v1.6.0) (2021-12-17)
 
 
 ### Features
 
 * implement coincap market service (fixes [#281](https://github.com/shapeshift/lib/issues/281)) ([#286](https://github.com/shapeshift/lib/issues/286)) ([2159a00](https://github.com/shapeshift/lib/commit/2159a005754a8234b87abb648796ea63c69452b3))
 
-# [@shapeshiftoss/market-service-v1.5.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.5.1...@shapeshiftoss/market-service-v1.5.2) (2021-12-08)
+# [@bithighlander/market-service-v1.5.2](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.5.1...@bithighlander/market-service-v1.5.2) (2021-12-08)
 
-# [@shapeshiftoss/market-service-v1.5.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.5.0...@shapeshiftoss/market-service-v1.5.1) (2021-12-02)
+# [@bithighlander/market-service-v1.5.1](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.5.0...@bithighlander/market-service-v1.5.1) (2021-12-02)
 
-# [@shapeshiftoss/market-service-v1.5.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.4.1...@shapeshiftoss/market-service-v1.5.0) (2021-11-30)
+# [@bithighlander/market-service-v1.5.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.4.1...@bithighlander/market-service-v1.5.0) (2021-11-30)
 
 
 ### Features
 
 * use sibling packages as peerDependencies ([#229](https://github.com/shapeshift/lib/issues/229)) ([7de039e](https://github.com/shapeshift/lib/commit/7de039e89907d98048fe6b1e39b4a1e64377cb50))
 
-# [@shapeshiftoss/market-service-v1.4.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.4.0...@shapeshiftoss/market-service-v1.4.1) (2021-11-29)
+# [@bithighlander/market-service-v1.4.1](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.4.0...@bithighlander/market-service-v1.4.1) (2021-11-29)
 
-# [@shapeshiftoss/market-service-v1.4.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.3.2...@shapeshiftoss/market-service-v1.4.0) (2021-11-29)
+# [@bithighlander/market-service-v1.4.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.3.2...@bithighlander/market-service-v1.4.0) (2021-11-29)
 
 
 ### Features
 
 * return dates as epoch times ([06de6b8](https://github.com/shapeshift/lib/commit/06de6b8cb684f4565de963c511e849be03906300))
 
-# [@shapeshiftoss/market-service-v1.3.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.3.1...@shapeshiftoss/market-service-v1.3.2) (2021-11-15)
+# [@bithighlander/market-service-v1.3.2](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.3.1...@bithighlander/market-service-v1.3.2) (2021-11-15)
 
 
 ### Bug Fixes
 
 * update deps ([#228](https://github.com/shapeshift/lib/issues/228)) ([e75d49b](https://github.com/shapeshift/lib/commit/e75d49bac8cef6387bd7934c26f38010326a617e))
 
-# [@shapeshiftoss/market-service-v1.3.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.3.0...@shapeshiftoss/market-service-v1.3.1) (2021-11-12)
+# [@bithighlander/market-service-v1.3.1](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.3.0...@bithighlander/market-service-v1.3.1) (2021-11-12)
 
 
 ### Bug Fixes
 
 * bump types ([#224](https://github.com/shapeshift/lib/issues/224)) ([fc6ca1c](https://github.com/shapeshift/lib/commit/fc6ca1c5940701131f8421ddbe35f5f8e2d851d3))
 
-# [@shapeshiftoss/market-service-v1.3.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.2.2...@shapeshiftoss/market-service-v1.3.0) (2021-11-10)
+# [@bithighlander/market-service-v1.3.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.2.2...@bithighlander/market-service-v1.3.0) (2021-11-10)
 
 
 ### Features
 
 * add getSendMaxAmount to swapper ([#200](https://github.com/shapeshift/lib/issues/200)) ([1788f5f](https://github.com/shapeshift/lib/commit/1788f5f0aa94334f87452633d572eed4b4feee5d))
 
-# [@shapeshiftoss/market-service-v1.2.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.2.1...@shapeshiftoss/market-service-v1.2.2) (2021-11-10)
+# [@bithighlander/market-service-v1.2.2](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.2.1...@bithighlander/market-service-v1.2.2) (2021-11-10)
 
-# [@shapeshiftoss/market-service-v1.2.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.2.0...@shapeshiftoss/market-service-v1.2.1) (2021-11-09)
+# [@bithighlander/market-service-v1.2.1](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.2.0...@bithighlander/market-service-v1.2.1) (2021-11-09)
 
 
 ### Bug Fixes
 
 * bump package versions ([#198](https://github.com/shapeshift/lib/issues/198)) ([da6c8f1](https://github.com/shapeshift/lib/commit/da6c8f13eb361aa520f2f1e9fc3e16a3785ed287))
 
-# [@shapeshiftoss/market-service-v1.2.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.1.0...@shapeshiftoss/market-service-v1.2.0) (2021-11-02)
+# [@bithighlander/market-service-v1.2.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.1.0...@bithighlander/market-service-v1.2.0) (2021-11-02)
 
 
 ### Features
 
 * market service market cap functionality ([#153](https://github.com/shapeshift/lib/issues/153)) ([cce22b9](https://github.com/shapeshift/lib/commit/cce22b9398e26ee90c50633941f293e13512a65c))
 
-# [@shapeshiftoss/market-service-v1.1.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.6...@shapeshiftoss/market-service-v1.1.0) (2021-10-31)
+# [@bithighlander/market-service-v1.1.0](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.6...@bithighlander/market-service-v1.1.0) (2021-10-31)
 
 
 ### Features
 
 * adds support for metamask (hdwallet) ([#173](https://github.com/shapeshift/lib/issues/173)) ([bdb3f74](https://github.com/shapeshift/lib/commit/bdb3f744712ad4a865217f44bc83b44b8fa0871b))
 
-# [@shapeshiftoss/market-service-v1.0.6](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.5...@shapeshiftoss/market-service-v1.0.6) (2021-10-27)
+# [@bithighlander/market-service-v1.0.6](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.5...@bithighlander/market-service-v1.0.6) (2021-10-27)
 
-# [@shapeshiftoss/market-service-v1.0.5](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.4...@shapeshiftoss/market-service-v1.0.5) (2021-10-25)
+# [@bithighlander/market-service-v1.0.5](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.4...@bithighlander/market-service-v1.0.5) (2021-10-25)
 
-# [@shapeshiftoss/market-service-v1.0.4](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.3...@shapeshiftoss/market-service-v1.0.4) (2021-10-20)
+# [@bithighlander/market-service-v1.0.4](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.3...@bithighlander/market-service-v1.0.4) (2021-10-20)
 
 
 ### Bug Fixes
 
 * manually bump internal lib package versions to latest ([#142](https://github.com/shapeshift/lib/issues/142)) ([7711bcd](https://github.com/shapeshift/lib/commit/7711bcd2f00c4884754d9bb911cb3fd724eff182))
 
-# [@shapeshiftoss/market-service-v1.0.3](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.2...@shapeshiftoss/market-service-v1.0.3) (2021-10-19)
+# [@bithighlander/market-service-v1.0.3](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.2...@bithighlander/market-service-v1.0.3) (2021-10-19)
 
-# [@shapeshiftoss/market-service-v1.0.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.1...@shapeshiftoss/market-service-v1.0.2) (2021-10-19)
+# [@bithighlander/market-service-v1.0.2](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.1...@bithighlander/market-service-v1.0.2) (2021-10-19)
 
 
 ### Bug Fixes
@@ -118,14 +118,14 @@
 * generic types and type package organization ([#129](https://github.com/shapeshift/lib/issues/129)) ([3bee811](https://github.com/shapeshift/lib/commit/3bee8111d720857595efdeb8a4de06bd9850ca7a))
 * various tweaks to get web back in a working ergonomic state ([#135](https://github.com/shapeshift/lib/issues/135)) ([97e507d](https://github.com/shapeshift/lib/commit/97e507d9d52831309587c8e4ef5c8a7deba4c711))
 
-# [@shapeshiftoss/market-service-v1.0.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v1.0.0...@shapeshiftoss/market-service-v1.0.1) (2021-10-12)
+# [@bithighlander/market-service-v1.0.1](https://github.com/shapeshift/lib/compare/@bithighlander/market-service-v1.0.0...@bithighlander/market-service-v1.0.1) (2021-10-12)
 
 
 ### Bug Fixes
 
 * update types ([#115](https://github.com/shapeshift/lib/issues/115)) ([ea989ff](https://github.com/shapeshift/lib/commit/ea989ff67b86ae420b3cd4251401cd5882c791d1))
 
-# @shapeshiftoss/market-service-v1.0.0 (2021-10-07)
+# @bithighlander/market-service-v1.0.0 (2021-10-07)
 
 
 ### Bug Fixes

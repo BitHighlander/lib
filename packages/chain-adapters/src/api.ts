@@ -1,5 +1,5 @@
-import { CAIP2 } from '@shapeshiftoss/caip'
-import { BIP44Params, chainAdapters, ChainTypes } from '@shapeshiftoss/types'
+import { CAIP2 } from '@bithighlander/caip'
+import { BIP44Params, chainAdapters, ChainTypes } from '@bithighlander/types'
 
 type ChainSpecificAdapterProps<
   T extends ChainTypes,

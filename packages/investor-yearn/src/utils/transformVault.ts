@@ -1,4 +1,4 @@
-import { ChainTypes } from '@shapeshiftoss/types'
+import { ChainTypes } from '@bithighlander/types'
 import { Vault } from '@yfi/sdk'
 import { toLower } from 'lodash'
 

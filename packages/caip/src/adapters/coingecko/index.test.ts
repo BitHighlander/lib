@@ -1,4 +1,4 @@
-import { ChainTypes, ContractTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, ContractTypes, NetworkTypes } from '@bithighlander/types'
 
 import { toCAIP19 } from './../../caip19/caip19'
 import { CAIP19ToCoingecko, coingeckoToCAIP19 } from '.'

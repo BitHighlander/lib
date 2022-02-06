@@ -1,5 +1,5 @@
-import { caip19 } from '@shapeshiftoss/caip'
-import { chainAdapters, ChainTypes, SendMaxAmountInput } from '@shapeshiftoss/types'
+import { caip19 } from '@bithighlander/caip'
+import { chainAdapters, ChainTypes, SendMaxAmountInput } from '@bithighlander/types'
 import BigNumber from 'bignumber.js'
 
 import { SwapError } from '../../../api'

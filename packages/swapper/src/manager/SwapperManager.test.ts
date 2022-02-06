@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
-import { SwapperType } from '@shapeshiftoss/types'
+import { ChainAdapterManager } from '@bithighlander/chain-adapters'
+import { SwapperType } from '@bithighlander/types'
 import Web3 from 'web3'
 
 import { ThorchainSwapper, ZrxSwapper } from '../swappers'

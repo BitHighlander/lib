@@ -1,5 +1,5 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { ChainTypes } from '@shapeshiftoss/types'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { ChainTypes } from '@bithighlander/types'
 import Web3 from 'web3'
 
 import { APPROVAL_GAS_LIMIT } from '../utils/constants'

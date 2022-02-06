@@ -1,4 +1,4 @@
-import { FindAllMarketType, FindByCaip19MarketType, PriceHistoryType } from '@shapeshiftoss/types'
+import { FindAllMarketType, FindByCaip19MarketType, PriceHistoryType } from '@bithighlander/types'
 
 export interface MarketService {
   baseUrl: string

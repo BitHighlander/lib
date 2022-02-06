@@ -1,5 +1,5 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+import { CAIP19 } from '@bithighlander/caip'
+import { ChainAdapterManager } from '@bithighlander/chain-adapters'
 import {
   ApprovalNeededInput,
   ApprovalNeededOutput,
@@ -14,7 +14,7 @@ import {
   Quote,
   SendMaxAmountInput,
   SwapperType
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import Web3 from 'web3'
 
 import { Swapper } from '../../api'

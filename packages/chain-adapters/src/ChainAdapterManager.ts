@@ -1,4 +1,4 @@
-import { ChainTypes } from '@shapeshiftoss/types'
+import { ChainTypes } from '@bithighlander/types'
 import * as unchained from '@shapeshiftoss/unchained-client'
 
 import { ChainAdapter } from './api'

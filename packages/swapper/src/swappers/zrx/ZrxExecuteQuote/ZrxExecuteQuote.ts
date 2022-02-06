@@ -1,4 +1,4 @@
-import { ChainTypes, ExecQuoteInput, ExecQuoteOutput, SwapperType } from '@shapeshiftoss/types'
+import { ChainTypes, ExecQuoteInput, ExecQuoteOutput, SwapperType } from '@bithighlander/types'
 import { numberToHex } from 'web3-utils'
 
 import { SwapError } from '../../../api'

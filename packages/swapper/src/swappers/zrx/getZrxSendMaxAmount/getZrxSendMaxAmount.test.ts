@@ -1,5 +1,5 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { chainAdapters } from '@shapeshiftoss/types'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { chainAdapters } from '@bithighlander/types'
 import BigNumber from 'bignumber.js'
 
 import { ETH_FEE_ESTIMATE_PADDING } from '../utils/constants'

@@ -1,10 +1,10 @@
-# [@shapeshiftoss/logger-v1.0.3](https://github.com/shapeshift/lib/compare/@shapeshiftoss/logger-v1.0.2...@shapeshiftoss/logger-v1.0.3) (2021-10-27)
+# [@bithighlander/logger-v1.0.3](https://github.com/shapeshift/lib/compare/@bithighlander/logger-v1.0.2...@bithighlander/logger-v1.0.3) (2021-10-27)
 
-# [@shapeshiftoss/logger-v1.0.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/logger-v1.0.1...@shapeshiftoss/logger-v1.0.2) (2021-10-27)
+# [@bithighlander/logger-v1.0.2](https://github.com/shapeshift/lib/compare/@bithighlander/logger-v1.0.1...@bithighlander/logger-v1.0.2) (2021-10-27)
 
-# [@shapeshiftoss/logger-v1.0.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/logger-v1.0.0...@shapeshiftoss/logger-v1.0.1) (2021-10-25)
+# [@bithighlander/logger-v1.0.1](https://github.com/shapeshift/lib/compare/@bithighlander/logger-v1.0.0...@bithighlander/logger-v1.0.1) (2021-10-25)
 
-# @shapeshiftoss/logger-v1.0.0 (2021-10-25)
+# @bithighlander/logger-v1.0.0 (2021-10-25)
 
 
 ### Features

@@ -4,7 +4,7 @@ import {
   ChainTypes,
   ContractTypes,
   NetworkTypes
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 
 export const BTC: Asset = {
   caip19: 'bip122:000000000019d6689c085ae165831e93/slip44:0',

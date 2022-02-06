@@ -1,5 +1,5 @@
-import { adapters } from '@shapeshiftoss/caip'
-import { toCAIP19 } from '@shapeshiftoss/caip/dist/caip19/caip19'
+import { adapters } from '@bithighlander/caip'
+import { toCAIP19 } from '@bithighlander/caip/dist/caip19/caip19'
 import {
   ChainTypes,
   ContractTypes,
@@ -11,7 +11,7 @@ import {
   MarketDataArgs,
   NetworkTypes,
   PriceHistoryArgs
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import { ChainId, Yearn } from '@yfi/sdk'
 import head from 'lodash/head'
 

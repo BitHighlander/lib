@@ -1,6 +1,6 @@
 // https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md
 
-import { ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, NetworkTypes } from '@bithighlander/types'
 
 export type CAIP2 = string
 

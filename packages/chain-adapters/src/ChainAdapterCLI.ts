@@ -1,5 +1,5 @@
-import { NativeAdapterArgs, NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
-import { BIP44Params, ChainTypes, UtxoAccountType } from '@shapeshiftoss/types'
+import { NativeAdapterArgs, NativeHDWallet } from '@bithighlander/hdwallet-native'
+import { BIP44Params, ChainTypes, UtxoAccountType } from '@bithighlander/types'
 import dotenv from 'dotenv'
 
 import { ChainAdapterManager } from './ChainAdapterManager'

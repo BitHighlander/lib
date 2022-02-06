@@ -1,4 +1,4 @@
-import { BIP44Params } from '@shapeshiftoss/types'
+import { BIP44Params } from '@bithighlander/types'
 
 export const toRootDerivationPath = (bip44Params: BIP44Params): string => {
   const { purpose, coinType, accountNumber } = bip44Params

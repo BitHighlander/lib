@@ -1,11 +1,11 @@
-import { caip2, caip19 } from '@shapeshiftoss/caip'
+import { caip2, caip19 } from '@bithighlander/caip'
 import {
   AssetDataSource,
   ChainTypes,
   ContractTypes,
   NetworkTypes,
   TokenAsset
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import axios from 'axios'
 import lodash from 'lodash'
 

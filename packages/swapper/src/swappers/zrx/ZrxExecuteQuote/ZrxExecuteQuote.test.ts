@@ -1,5 +1,5 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { ChainTypes, ExecQuoteInput, SwapperType } from '@shapeshiftoss/types'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { ChainTypes, ExecQuoteInput, SwapperType } from '@bithighlander/types'
 
 import { setupQuote } from '../utils/test-data/setupSwapQuote'
 import { ZrxSwapperDeps } from '../ZrxSwapper'

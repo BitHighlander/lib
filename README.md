@@ -13,16 +13,16 @@ If you're working in this repo, you're likely also working in [web](https://gith
 ➜ yarn link-packages
 yarn run v1.22.15
 $ node scripts/linkPackages.js link
-success Registered "@shapeshiftoss/asset-service".
-info You can now run `yarn link "@shapeshiftoss/asset-service"` in the projects where you want to use this package and it will be used instead.
-success Registered "@shapeshiftoss/chain-adapters".
-info You can now run `yarn link "@shapeshiftoss/chain-adapters"` in the projects where you want to use this package and it will be used instead.
-success Registered "@shapeshiftoss/market-service".
-info You can now run `yarn link "@shapeshiftoss/market-service"` in the projects where you want to use this package and it will be used instead.
-success Registered "@shapeshiftoss/swapper".
-info You can now run `yarn link "@shapeshiftoss/swapper"` in the projects where you want to use this package and it will be used instead.
-success Registered "@shapeshiftoss/types".
-info You can now run `yarn link "@shapeshiftoss/types"` in the projects where you want to use this package and it will be used instead.
+success Registered "@bithighlander/asset-service".
+info You can now run `yarn link "@bithighlander/asset-service"` in the projects where you want to use this package and it will be used instead.
+success Registered "@bithighlander/chain-adapters".
+info You can now run `yarn link "@bithighlander/chain-adapters"` in the projects where you want to use this package and it will be used instead.
+success Registered "@bithighlander/market-service".
+info You can now run `yarn link "@bithighlander/market-service"` in the projects where you want to use this package and it will be used instead.
+success Registered "@bithighlander/swapper".
+info You can now run `yarn link "@bithighlander/swapper"` in the projects where you want to use this package and it will be used instead.
+success Registered "@bithighlander/types".
+info You can now run `yarn link "@bithighlander/types"` in the projects where you want to use this package and it will be used instead.
 
 ✨  Done in 0.47s.
 ```
@@ -32,16 +32,16 @@ Similary you can unlink packages, which can be useful for debugging failing CI r
 ➜ yarn unlink-packages
 yarn run v1.22.15
 $ node scripts/linkPackages.js unlink
-success Unregistered "@shapeshiftoss/asset-service".
-info You can now run `yarn unlink "@shapeshiftoss/asset-service"` in the projects where you no longer want to use this package.
-success Unregistered "@shapeshiftoss/chain-adapters".
-info You can now run `yarn unlink "@shapeshiftoss/chain-adapters"` in the projects where you no longer want to use this package.
-success Unregistered "@shapeshiftoss/market-service".
-info You can now run `yarn unlink "@shapeshiftoss/market-service"` in the projects where you no longer want to use this package.
-success Unregistered "@shapeshiftoss/swapper".
-info You can now run `yarn unlink "@shapeshiftoss/swapper"` in the projects where you no longer want to use this package.
-success Unregistered "@shapeshiftoss/types".
-info You can now run `yarn unlink "@shapeshiftoss/types"` in the projects where you no longer want to use this package.
+success Unregistered "@bithighlander/asset-service".
+info You can now run `yarn unlink "@bithighlander/asset-service"` in the projects where you no longer want to use this package.
+success Unregistered "@bithighlander/chain-adapters".
+info You can now run `yarn unlink "@bithighlander/chain-adapters"` in the projects where you no longer want to use this package.
+success Unregistered "@bithighlander/market-service".
+info You can now run `yarn unlink "@bithighlander/market-service"` in the projects where you no longer want to use this package.
+success Unregistered "@bithighlander/swapper".
+info You can now run `yarn unlink "@bithighlander/swapper"` in the projects where you no longer want to use this package.
+success Unregistered "@bithighlander/types".
+info You can now run `yarn unlink "@bithighlander/types"` in the projects where you no longer want to use this package.
 
 ✨  Done in 0.37s.
 ```

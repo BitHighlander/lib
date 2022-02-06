@@ -4,7 +4,7 @@ import {
   ChainTypes,
   QuoteResponse,
   SwapperType
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 import { AxiosResponse } from 'axios'
 import { BigNumber } from 'bignumber.js'
 

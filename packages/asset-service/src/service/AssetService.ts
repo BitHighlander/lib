@@ -1,4 +1,4 @@
-import { Asset, AssetDataSource, BaseAsset, ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { Asset, AssetDataSource, BaseAsset, ChainTypes, NetworkTypes } from '@bithighlander/types'
 import axios from 'axios'
 
 import localAssetData from './generatedAssetData.json'

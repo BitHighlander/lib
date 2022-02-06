@@ -1,4 +1,4 @@
-import { ChainTypes, ContractTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { ChainTypes, ContractTypes, NetworkTypes } from '@bithighlander/types'
 import toLower from 'lodash/toLower'
 
 import { toCAIP19 } from './../../caip19/caip19'

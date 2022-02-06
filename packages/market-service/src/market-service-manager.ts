@@ -5,8 +5,8 @@ import {
   MarketDataArgs,
   PriceHistoryArgs,
   PriceHistoryType
-} from '@shapeshiftoss/types'
-import { FindAllMarketArgs } from '@shapeshiftoss/types/src'
+} from '@bithighlander/types'
+import { FindAllMarketArgs } from '@bithighlander/types/src'
 
 import { MarketProviders } from './market-providers'
 

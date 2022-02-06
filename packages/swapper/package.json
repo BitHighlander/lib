@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/swapper",
+  "name": "@bithighlander/swapper",
   "version": "1.15.1",
   "description": "TODO: description",
   "repository": "https://github.com/shapeshift/lib",
@@ -27,18 +27,18 @@
     "web3": "^1.6.1"
   },
   "peerDependencies": {
-    "@shapeshiftoss/asset-service": "^1.6.1",
-    "@shapeshiftoss/caip": "^1.6.1",
-    "@shapeshiftoss/chain-adapters": "^1.15.3",
-    "@shapeshiftoss/hdwallet-core": "^1.18.2",
-    "@shapeshiftoss/types": "^1.13.1"
+    "@bithighlander/asset-service": "^1.6.1",
+    "@bithighlander/caip": "^1.6.1",
+    "@bithighlander/chain-adapters": "^1.15.3",
+    "@bithighlander/hdwallet-core": "latest",
+    "@bithighlander/types": "^1.13.1"
   },
   "devDependencies": {
-    "@shapeshiftoss/asset-service": "^1.6.1",
-    "@shapeshiftoss/caip": "^1.6.1",
-    "@shapeshiftoss/chain-adapters": "^1.16.2",
-    "@shapeshiftoss/hdwallet-core": "^1.18.2",
-    "@shapeshiftoss/types": "^1.13.1",
+    "@bithighlander/asset-service": "^1.6.1",
+    "@bithighlander/caip": "^1.6.1",
+    "@bithighlander/chain-adapters": "^1.16.2",
+    "@bithighlander/hdwallet-core": "latest",
+    "@bithighlander/types": "^1.13.1",
     "@types/readline-sync": "^1.4.4",
     "readline-sync": "^1.4.10",
     "web3-utils": "^1.5.2"

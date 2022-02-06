@@ -1,5 +1,5 @@
 {
-  "name": "@shapeshiftoss/chain-adapters",
+  "name": "@bithighlander/chain-adapters",
   "version": "1.31.1",
   "description": "> TODO: description",
   "homepage": "",
@@ -34,19 +34,19 @@
     "web3-utils": "^1.6.0"
   },
   "peerDependencies": {
-    "@shapeshiftoss/caip": "^1.5.1",
-    "@shapeshiftoss/hdwallet-core": "^1.18.2",
-    "@shapeshiftoss/hdwallet-native": "^1.18.2",
-    "@shapeshiftoss/types": "^1.20.1",
+    "@bithighlander/caip": "^1.5.1",
+    "@bithighlander/hdwallet-core": "latest",
+    "@bithighlander/hdwallet-native": "latest",
+    "@bithighlander/types": "^1.20.1",
     "@shapeshiftoss/unchained-client": "^5.1.0",
     "@shapeshiftoss/unchained-tx-parser": "^5.1.0",
     "bs58check": "^2.0.0"
   },
   "devDependencies": {
-    "@shapeshiftoss/caip": "^1.5.1",
-    "@shapeshiftoss/hdwallet-core": "^1.18.2",
-    "@shapeshiftoss/hdwallet-native": "^1.18.2",
-    "@shapeshiftoss/types": "^1.20.0",
+    "@bithighlander/caip": "^1.5.1",
+    "@bithighlander/hdwallet-core": "latest",
+    "@bithighlander/hdwallet-native": "latest",
+    "@bithighlander/types": "^1.20.0",
     "@shapeshiftoss/unchained-client": "^5.1.0",
     "@shapeshiftoss/unchained-tx-parser": "^5.1.0",
     "@types/bs58check": "^2.1.0",

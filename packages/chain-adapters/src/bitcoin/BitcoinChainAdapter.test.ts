@@ -6,9 +6,9 @@
  * @group unit
  */
 
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { NativeAdapterArgs, NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
-import { BIP44Params, chainAdapters, ChainTypes, UtxoAccountType } from '@shapeshiftoss/types'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { NativeAdapterArgs, NativeHDWallet } from '@bithighlander/hdwallet-native'
+import { BIP44Params, chainAdapters, ChainTypes, UtxoAccountType } from '@bithighlander/types'
 
 import * as bitcoin from './BitcoinChainAdapter'
 

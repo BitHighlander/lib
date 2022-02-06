@@ -4,9 +4,9 @@
  * Test EthereumChainAdapter
  * @group unit
  */
-import { ETHSignTx, ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import { NativeAdapterArgs, NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
-import { chainAdapters, ChainTypes } from '@shapeshiftoss/types'
+import { ETHSignTx, ETHWallet } from '@bithighlander/hdwallet-core'
+import { NativeAdapterArgs, NativeHDWallet } from '@bithighlander/hdwallet-native'
+import { chainAdapters, ChainTypes } from '@bithighlander/types'
 import { ethereum as unchainedEthereum } from '@shapeshiftoss/unchained-client'
 import { merge } from 'lodash'
 import { numberToHex } from 'web3-utils'

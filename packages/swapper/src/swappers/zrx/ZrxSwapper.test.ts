@@ -1,6 +1,6 @@
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { chainAdapters, ChainTypes, GetQuoteInput, Quote, SwapperType } from '@shapeshiftoss/types'
+import { ChainAdapterManager } from '@bithighlander/chain-adapters'
+import { HDWallet } from '@bithighlander/hdwallet-core'
+import { chainAdapters, ChainTypes, GetQuoteInput, Quote, SwapperType } from '@bithighlander/types'
 import Web3 from 'web3'
 
 import { ZrxError } from '../..'

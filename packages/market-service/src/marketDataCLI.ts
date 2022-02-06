@@ -1,5 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
-// import { HistoryTimeframe } from '@shapeshiftoss/types'
+// import { HistoryTimeframe } from '@bithighlander/types'
 import { Yearn } from '@yfi/sdk'
 
 // import { CoinGeckoMarketService } from './coingecko/coingecko'

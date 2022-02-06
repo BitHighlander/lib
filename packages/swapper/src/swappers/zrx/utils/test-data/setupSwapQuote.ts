@@ -1,4 +1,4 @@
-import { Asset } from '@shapeshiftoss/types'
+import { Asset } from '@bithighlander/types'
 
 import { DEFAULT_SLIPPAGE } from '../constants'
 import { FOX, WETH } from './assets'

@@ -1,4 +1,4 @@
-import { AssetDataSource, ContractTypes, TokenAsset } from '@shapeshiftoss/types'
+import { AssetDataSource, ContractTypes, TokenAsset } from '@bithighlander/types'
 
 export const tokensToOverride: Array<TokenAsset> = [
   // example overriding FOX token with custom values instead of goingecko

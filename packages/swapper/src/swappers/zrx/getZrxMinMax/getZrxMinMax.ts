@@ -1,4 +1,4 @@
-import { ChainTypes, GetQuoteInput, MinMaxOutput, QuoteResponse } from '@shapeshiftoss/types'
+import { ChainTypes, GetQuoteInput, MinMaxOutput, QuoteResponse } from '@bithighlander/types'
 import BigNumber from 'bignumber.js'
 
 import { MAX_ZRX_TRADE } from '../utils/constants'

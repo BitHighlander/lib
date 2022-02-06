@@ -1,4 +1,4 @@
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { HDWallet } from '@bithighlander/hdwallet-core'
 
 import { FeeDataKey, QuoteFeeData, SignTxInput } from './chain-adapters'
 

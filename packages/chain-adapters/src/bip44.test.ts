@@ -1,4 +1,4 @@
-import { BIP44Params } from '@shapeshiftoss/types'
+import { BIP44Params } from '@bithighlander/types'
 
 import { fromPath, toPath } from './utils/bip44'
 

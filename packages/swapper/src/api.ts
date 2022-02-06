@@ -1,5 +1,5 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { CAIP19 } from '@bithighlander/caip'
+import { HDWallet } from '@bithighlander/hdwallet-core'
 import {
   ApprovalNeededInput,
   ApprovalNeededOutput,
@@ -14,7 +14,7 @@ import {
   Quote,
   SendMaxAmountInput,
   SwapperType
-} from '@shapeshiftoss/types'
+} from '@bithighlander/types'
 
 export class SwapError extends Error {}
 
