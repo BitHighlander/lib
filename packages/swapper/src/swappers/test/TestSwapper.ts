@@ -27,42 +27,41 @@ export class TestSwapper implements Swapper {
     this.supportAssets = [
       'bip122:000000000933ea01ad0ee984209779ba/slip44:0',
       'cosmos:cosmoshub-4/slip44:118',
-      'eip155:1/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d'
     ]
   }
 
   async getQuote(): Promise<Quote<ChainTypes>> {
-    throw new Error('TestSwapper: getQuote unimplemented')
+    throw new Error('OsmoSwapper: getQuote unimplemented')
   }
 
   async buildQuoteTx(): Promise<Quote<ChainTypes>> {
-    throw new Error('TestSwapper: getQuote unimplemented')
+    throw new Error('OsmoSwapper: getQuote unimplemented')
   }
 
   getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
     console.info(input)
-    throw new Error('TestSwapper: getUsdRate unimplemented')
+    throw new Error('OsmoSwapper: getUsdRate unimplemented')
   }
 
   getMinMax(input: GetQuoteInput): Promise<MinMaxOutput> {
     console.info(input)
-    throw new Error('TestSwapper: getMinMax unimplemented')
+    throw new Error('OsmoSwapper: getMinMax unimplemented')
   }
 
   async executeQuote(): Promise<ExecQuoteOutput> {
-    throw new Error('TestSwapper: executeQuote unimplemented')
+    throw new Error('OsmoSwapper: executeQuote unimplemented')
   }
 
   getDefaultPair(): [CAIP19, CAIP19] {
-    throw new Error('TestSwapper: getDefaultPair unimplemented')
+    throw new Error('OsmoSwapper: getDefaultPair unimplemented')
   }
 
   async approvalNeeded(): Promise<ApprovalNeededOutput> {
-    throw new Error('TestSwapper: approvalNeeded unimplemented')
+    throw new Error('OsmoSwapper: approvalNeeded unimplemented')
   }
 
   async approveInfinite(): Promise<string> {
-    throw new Error('TestSwapper: approveInfinite unimplemented')
+    throw new Error('OsmoSwapper: approveInfinite unimplemented')
   }
 
   filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): CAIP19[] {
