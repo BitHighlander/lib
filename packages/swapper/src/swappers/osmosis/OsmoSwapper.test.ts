@@ -2,13 +2,18 @@
     osmo Swapper
  */
 import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import {ChainTypes, GetQuoteInput, Quote, SwapperType} from '@shapeshiftoss/types'
 
 import { OsmoSwapper, ZrxSwapper } from '../..'
 import { getRateInfo } from './OsmoService'
 import { setupQuote } from './test-data/setupSwapQuote'
 
-describe('OsmoSwapper', () => {
+describe.only('OsmoSwapper', () => {
   const sellAmount = '1000000000000000000'
+  const input = <GetQuoteInput>{}
+  const wallet = <HDWallet>{}
+  const quote = <Quote<ChainTypes>>{}
 
   const swapperDeps = {
     adapterManager: <ChainAdapterManager>{}
@@ -31,7 +36,48 @@ describe('OsmoSwapper', () => {
     // )
     //
     const quote = await swapper.getQuote(quoteInput)
-    console.log('(output) quote: ', quote)
-    expect(true).toBeTruthy()
+    console.log('(output) quote: buy amount ', quote.buyAmount)
+    console.log('(output) quote: buy rate ', quote.rate)
+
+    expect(quote.success).toBeTruthy()
+
+    //TODO hardcode to mock
+    // expect(quote.feeData).toStrictEqual({
+    //   fee: '1500000000',
+    //   chainSpecific: {
+    //     estimatedGas: '1500000',
+    //     gasPrice: '1000',
+    //     approvalFee: '100000000'
+    //   }
+    // })
+    // expect(quote.rate).toBe('100')
+  })
+
+  it('returns Zrx type', () => {
+    const swapper = new OsmoSwapper()
+    const type = swapper.getType()
+    expect(type).toBe(SwapperType.Osmosis)
+  })
+
+  //TODO is this needed? because not eth
+  // it('Builds quote Tx', () => {
+  //   const swapper = new OsmoSwapper()
+  //   const type = swapper.getType()
+  //
+  //   const args = { input, wallet }
+  //   await swapper.buildQuoteTx(args)
+  //
+  //   //
+  // })
+
+  it('executeQuote quote Tx', async () => {
+    const swapper = new OsmoSwapper()
+    const type = swapper.getType()
+
+    const args = { quote, wallet }
+    const resp = await swapper.executeQuote(args)
+
+    //
+    console.log('resp: ', resp)
   })
 })

@@ -4,11 +4,14 @@
 /* eslint-disable no-console */
 import axios from 'axios'
 import { find } from 'lodash'
-import { Asset, ExecQuoteOutput, SwapError } from '../../api'
+import { SwapError } from '../../api'
 import BigNumber from 'bignumber.js'
 import { bip32ToAddressNList, CosmosWallet, HDWallet, OsmosisWallet } from '@shapeshiftoss/hdwallet-core'
 // import { OsmosisChainAdapter } from '@shapeshiftoss/platform.chain-adapters'
 import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config({path:'.env'})
 
 export interface IsymbolDenomMapping {
     OSMO: string
@@ -21,18 +24,21 @@ export const symbolDenomMapping = {
     ATOM: 'ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2'
 }
 
-export const osmoUrl =
-    'https://osmosis-1--lcd--full.datahub.figment.io/apikey/0180433904229d03ca0e8370b0ff3fb8/'
-export const atomUrl = 'https://cosmoshub-4--lcd--full.datahub.figment.io/apikey/06fa766d1a458fe25081e83ffdf085ae/'
+export const osmoUrl = process.env['OSMO_NODE']
+export const atomUrl = process.env['ATOM_NODE']
+if(!osmoUrl) throw Error("OSMO_NODE required!")
+if(!atomUrl) throw Error("ATOM_NODE required!")
 
-const findPool = async (sellAsset: Asset, buyAsset: Asset) => {
+const findPool = async (sellAsset: any, buyAsset: any) => {
     const sellAssetDenom = symbolDenomMapping[sellAsset.symbol as keyof IsymbolDenomMapping]
     const buyAssetDenom = symbolDenomMapping[buyAsset.symbol as keyof IsymbolDenomMapping]
 
     const poolsUrl =
-        'https://osmosis-1--lcd--full.datahub.figment.io/apikey/b2ee30cfae45c774b6ed35e69a372dbf/osmosis/gamm/v1beta1/pools'
+        osmoUrl+'osmosis/gamm/v1beta1/pools'
 
+    console.log("poolsUrl: ",poolsUrl)
     const poolsResponse = (await axios.get(poolsUrl))
+    console.log("poolsResponse: ",poolsResponse)
 
     const foundPool = find(poolsResponse.data.pools, (pool) => {
         const token0Denom = pool.poolAssets[0].token.denom
@@ -43,7 +49,7 @@ const findPool = async (sellAsset: Asset, buyAsset: Asset) => {
         )
     })
 
-    if (!foundPool) throw new SwapError('Coulnt find pool')
+    if (!foundPool) throw new SwapError('Couldnt find pool')
 
     let sellAssetIndex
     let buyAssetIndex
@@ -82,8 +88,9 @@ const getInfoFromPool = (sellAmount: string, pool: any, sellAssetIndex: number, 
     }
 }
 
-export const getRateInfo = async (sellAsset: Asset, buyAsset: Asset, sellAmount: string) => {
+export const getRateInfo = async (sellAsset: any, buyAsset: any, sellAmount: string) => {
     const { pool, sellAssetIndex, buyAssetIndex } = await findPool(sellAsset, buyAsset)
+    console.log("******* pool: ",{ pool, sellAssetIndex, buyAssetIndex })
     return getInfoFromPool(sellAmount, pool, sellAssetIndex, buyAssetIndex)
 }
 
@@ -156,7 +163,7 @@ const pollForComplete = async (txid: string, baseUrl: string): Promise<string> =
 
 // Seperate so we can return early txid1 for better UX
 // Callback that waits for tx1 to finish before creating tx2
-export const osmoToAtomCallback = async (txid1: string, sellAddress: string, gas: string, buyAssetDenom: string, buyAddress: string, wallet: HDWallet, accountUrl: string, osmosisAdapter: any, osmoAddressNList: number[]): Promise<ExecQuoteOutput | undefined> => {
+export const osmoToAtomCallback = async (txid1: string, sellAddress: string, gas: string, buyAssetDenom: string, buyAddress: string, wallet: HDWallet, accountUrl: string, osmosisAdapter: any, osmoAddressNList: number[]): Promise<any | undefined> => {
     const pollResult = await pollForComplete(txid1, osmoUrl)
     if(pollResult !== 'success')
         throw new Error('first osmo -> atom tx failed')
