@@ -1,11 +1,10 @@
 import { AssetNamespace } from '@shapeshiftoss/caip'
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+import { bnOrZero, ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
 import { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { ChainTypes, GetQuoteInput } from '@shapeshiftoss/types'
-import BigNumber from 'bignumber.js'
 import Web3 from 'web3'
 
-import { APPROVAL_GAS_LIMIT, DEFAULT_SLIPPAGE, MAX_SLIPPAGE } from '../utils/constants'
+import { APPROVAL_GAS_LIMIT, MAX_SLIPPAGE } from '../utils/constants'
 import { setupQuote } from '../utils/test-data/setupSwapQuote'
 import { zrxService } from '../utils/zrxService'
 import { ZrxBuildQuoteTx } from './ZrxBuildQuoteTx'
@@ -41,7 +40,6 @@ Web3.mockImplementation(() => ({
 
 const mockQuoteResponse = {
   allowanceContract: 'allowanceTargetAddress',
-  allowanceGrantRequired: true,
   buyAmount: undefined,
   buyAsset: {
     assetId: 'eip155:1/erc20:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -76,8 +74,6 @@ const mockQuoteResponse = {
       gasPrice: undefined
     }
   },
-  guaranteedPrice: undefined,
-  priceImpact: undefined,
   rate: undefined,
   receiveAddress: '0xc770eefad204b5180df6a14ee197d99d808ee52d',
   sellAmount: '1000000000000000000',
@@ -105,9 +101,7 @@ const mockQuoteResponse = {
     tokenId: '0xc770eefad204b5180df6a14ee197d99d808ee52d'
   },
   sellAssetAccountId: '0',
-  slippage: DEFAULT_SLIPPAGE,
   sources: [{ name: '0x', proportion: '1' }],
-  statusCode: 0,
   success: true,
   txData: undefined
 }
@@ -266,11 +260,11 @@ describe('ZrxBuildQuoteTx', () => {
       feeData: {
         ...mockQuoteResponse.feeData,
         chainSpecific: {
-          approvalFee: new BigNumber(APPROVAL_GAS_LIMIT).multipliedBy(gasPrice).toString(),
+          approvalFee: bnOrZero(APPROVAL_GAS_LIMIT).multipliedBy(gasPrice).toString(),
           gasPrice,
           estimatedGas
         },
-        fee: new BigNumber(gasPrice).multipliedBy(estimatedGas).toString()
+        fee: bnOrZero(gasPrice).multipliedBy(estimatedGas).toString()
       }
     })
   })
@@ -296,7 +290,6 @@ describe('ZrxBuildQuoteTx', () => {
 
     expect(await ZrxBuildQuoteTx(deps, { input: quoteInput, wallet })).toEqual({
       success: false,
-      statusCode: 400,
       statusReason: 'Unknown Error',
       buyAsset: { ...mockQuoteResponse.buyAsset },
       sellAsset: { ...mockQuoteResponse.sellAsset }
@@ -310,7 +303,6 @@ describe('ZrxBuildQuoteTx', () => {
 
     expect(await ZrxBuildQuoteTx(deps, { input: quoteInput, wallet })).toEqual({
       success: false,
-      statusCode: 500,
       statusReason: 'Unknown Error',
       buyAsset: { ...mockQuoteResponse.buyAsset },
       sellAsset: { ...mockQuoteResponse.sellAsset }

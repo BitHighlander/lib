@@ -1,22 +1,15 @@
 import { ChainTypes, GetQuoteInput, Quote, QuoteResponse, SwapSource } from '@shapeshiftoss/types'
 import { AxiosResponse } from 'axios'
-import BigNumber from 'bignumber.js'
 
-import { APPROVAL_GAS_LIMIT, DEFAULT_SOURCE, MAX_ZRX_TRADE } from '../utils/constants'
+import { getZrxMinMax } from '../getZrxMinMax/getZrxMinMax'
+import { bnOrZero } from '../utils/bignumber'
+import { APPROVAL_GAS_LIMIT, DEFAULT_SOURCE } from '../utils/constants'
 import { normalizeAmount } from '../utils/helpers/helpers'
 import { zrxService } from '../utils/zrxService'
 import { ZrxError } from '../ZrxSwapper'
 
 export async function getZrxQuote(input: GetQuoteInput): Promise<Quote<ChainTypes.Ethereum>> {
-  const {
-    sellAsset,
-    buyAsset,
-    sellAmount,
-    buyAmount,
-    minimumPrice,
-    minimum: minQuoteSellAmount,
-    slippage
-  } = input
+  const { sellAsset, buyAsset, sellAmount, buyAmount } = input
   if (!buyAsset) {
     throw new ZrxError('getQuote - Missing buyAsset')
   }
@@ -34,12 +27,11 @@ export async function getZrxQuote(input: GetQuoteInput): Promise<Quote<ChainType
   const buyToken = buyAsset.tokenId || buyAsset.symbol
   const sellToken = sellAsset.tokenId || sellAsset.symbol
 
-  let minQuoteSellAmountWei = null
-  if (minQuoteSellAmount) {
-    minQuoteSellAmountWei = new BigNumber(minQuoteSellAmount as string).times(
-      new BigNumber(10).exponentiatedBy(sellAsset.precision)
-    )
-  }
+  const { minimum: minQuoteSellAmount, maximum: maxSellAmount } = await getZrxMinMax(input)
+
+  const minQuoteSellAmountWei = bnOrZero(minQuoteSellAmount).times(
+    bnOrZero(10).exponentiatedBy(sellAsset.precision)
+  )
 
   const amount = useSellAmount ? { sellAmount } : { buyAmount }
   const amountKey = Object.keys(amount)[0]
@@ -54,7 +46,6 @@ export async function getZrxQuote(input: GetQuoteInput): Promise<Quote<ChainType
     throw new ZrxError('getQuote - Must have valid sellAmount, buyAmount or minimum amount')
   }
 
-  const slippagePercentage = slippage ? new BigNumber(slippage).div(100).toString() : undefined
   try {
     /**
      * /swap/v1/price
@@ -71,56 +62,40 @@ export async function getZrxQuote(input: GetQuoteInput): Promise<Quote<ChainType
         params: {
           sellToken,
           buyToken,
-          slippagePercentage,
           [amountKey]: normalizedAmount
         }
       }
     )
 
     const { data } = quoteResponse
-    const quotePrice = new BigNumber(data.price)
-    const priceDifference = quotePrice.minus(minimumPrice as string)
-    const priceImpact = priceDifference
-      .dividedBy(minimumPrice as string)
-      .abs()
-      .valueOf()
 
-    const estimatedGas = data.estimatedGas
-      ? new BigNumber(data.estimatedGas).times(1.5)
-      : new BigNumber(0)
-    const rate = useSellAmount ? data.price : new BigNumber(1).div(data.price).toString()
+    const estimatedGas = bnOrZero(data.estimatedGas).times(1.5)
+    const rate = useSellAmount ? data.price : bnOrZero(1).div(data.price).toString()
 
     return {
       sellAsset,
       buyAsset,
-      priceImpact,
-      slippage,
       success: true,
-      statusCode: 0,
       rate,
-      minimum: minQuoteSellAmount, // $1 worth of the sell token.
-      maximum: MAX_ZRX_TRADE, // Arbitrarily large value. 10e+28 here.
+      minimum: minQuoteSellAmount,
+      maximum: maxSellAmount,
       feeData: {
-        fee: new BigNumber(estimatedGas || 0)
-          .multipliedBy(new BigNumber(data.gasPrice || 0))
-          .toString(),
+        fee: bnOrZero(estimatedGas).multipliedBy(bnOrZero(data.gasPrice)).toString(),
         chainSpecific: {
           estimatedGas: estimatedGas.toString(),
           gasPrice: data.gasPrice,
           approvalFee:
             sellAsset.tokenId &&
-            new BigNumber(APPROVAL_GAS_LIMIT).multipliedBy(data.gasPrice || 0).toString()
+            bnOrZero(APPROVAL_GAS_LIMIT).multipliedBy(bnOrZero(data.gasPrice)).toString()
         }
       },
       sellAmount: data.sellAmount,
       buyAmount: data.buyAmount,
-      guaranteedPrice: data.guaranteedPrice,
       sources:
-        data.sources?.filter((s: SwapSource) => parseFloat(s.proportion) > 0) || DEFAULT_SOURCE
+        data.sources?.filter((s: SwapSource) => parseFloat(s.proportion) > 0) || DEFAULT_SOURCE,
+      allowanceContract: data.allowanceTarget
     }
   } catch (e) {
-    const statusCode =
-      e?.response?.data?.validationErrors?.[0]?.code || e?.response?.data?.code || -1
     const statusReason =
       e?.response?.data?.validationErrors?.[0]?.reason ||
       e?.response?.data?.reason ||
@@ -128,10 +103,7 @@ export async function getZrxQuote(input: GetQuoteInput): Promise<Quote<ChainType
     return {
       sellAsset,
       buyAsset,
-      minimum: minQuoteSellAmount,
-      maximum: MAX_ZRX_TRADE,
       success: false,
-      statusCode,
       statusReason
     }
   }

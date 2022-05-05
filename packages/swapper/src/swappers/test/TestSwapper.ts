@@ -10,7 +10,7 @@ import {
   SwapperType
 } from '@shapeshiftoss/types'
 
-import { BuyAssetBySellIdInput, Swapper } from '../../api'
+import { BuyAssetBySellIdInput, Swapper, Trade, TradeQuote } from '../../api'
 
 /**
  * Playground for testing different scenarios of multiple swappers in the manager.
@@ -27,41 +27,38 @@ export class TestSwapper implements Swapper {
     this.supportAssets = [
       'bip122:000000000933ea01ad0ee984209779ba/slip44:0',
       'cosmos:cosmoshub-4/slip44:118',
+      'eip155:1/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d'
     ]
   }
 
   async getQuote(): Promise<Quote<ChainTypes>> {
-    throw new Error('OsmoSwapper: getQuote unimplemented')
+    throw new Error('TestSwapper: getQuote unimplemented')
   }
 
   async buildQuoteTx(): Promise<Quote<ChainTypes>> {
-    throw new Error('OsmoSwapper: getQuote unimplemented')
+    throw new Error('TestSwapper: getQuote unimplemented')
   }
 
   getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
     console.info(input)
-    throw new Error('OsmoSwapper: getUsdRate unimplemented')
+    throw new Error('TestSwapper: getUsdRate unimplemented')
   }
 
   getMinMax(input: GetQuoteInput): Promise<MinMaxOutput> {
     console.info(input)
-    throw new Error('OsmoSwapper: getMinMax unimplemented')
+    throw new Error('TestSwapper: getMinMax unimplemented')
   }
 
   async executeQuote(): Promise<ExecQuoteOutput> {
-    throw new Error('OsmoSwapper: executeQuote unimplemented')
-  }
-
-  getDefaultPair(): [CAIP19, CAIP19] {
-    throw new Error('OsmoSwapper: getDefaultPair unimplemented')
+    throw new Error('TestSwapper: executeQuote unimplemented')
   }
 
   async approvalNeeded(): Promise<ApprovalNeededOutput> {
-    throw new Error('OsmoSwapper: approvalNeeded unimplemented')
+    throw new Error('TestSwapper: approvalNeeded unimplemented')
   }
 
   async approveInfinite(): Promise<string> {
-    throw new Error('OsmoSwapper: approveInfinite unimplemented')
+    throw new Error('TestSwapper: approveInfinite unimplemented')
   }
 
   filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): CAIP19[] {
@@ -72,5 +69,17 @@ export class TestSwapper implements Swapper {
 
   filterAssetIdsBySellable(): CAIP19[] {
     return this.supportAssets
+  }
+
+  async buildTrade(): Promise<Trade<ChainTypes>> {
+    throw new Error('TestSwapper: buildTrade unimplemented')
+  }
+
+  async getTradeQuote(): Promise<TradeQuote<ChainTypes>> {
+    throw new Error('TestSwapper: getTradeQuote unimplemented')
+  }
+
+  async executeTrade(): Promise<ExecQuoteOutput> {
+    throw new Error('TestSwapper: executeTrade unimplemented')
   }
 }
