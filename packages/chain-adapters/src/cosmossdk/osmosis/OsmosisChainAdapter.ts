@@ -456,8 +456,6 @@ export class ChainAdapter
   }
 
   async getFeeData({
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars -- Disable no-unused-vars lint rule for unimplemented variable */
-    sendMax
   }: Partial<chainAdapters.GetFeeDataInput<ChainTypes.Osmosis>>): Promise<
     chainAdapters.FeeDataEstimate<ChainTypes.Osmosis>
   > {

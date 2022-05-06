@@ -6,9 +6,9 @@ import axios from 'axios'
 import { find } from 'lodash'
 import { SwapError } from '../../api'
 import BigNumber from 'bignumber.js'
-import { bip32ToAddressNList, CosmosWallet, HDWallet, OsmosisWallet } from '@shapeshiftoss/hdwallet-core'
+import { HDWallet, OsmosisWallet } from '@shapeshiftoss/hdwallet-core'
 // import { OsmosisChainAdapter } from '@shapeshiftoss/platform.chain-adapters'
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+// import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config({path:'.env'})

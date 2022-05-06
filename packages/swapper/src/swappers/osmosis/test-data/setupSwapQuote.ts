@@ -1,11 +1,11 @@
-import { Asset } from '@shapeshiftoss/types/*'
+// import { Asset } from '@shapeshiftoss/types/*'
 
 import { DEFAULT_SLIPPAGE } from '../constants'
 import { OSMO, ATOM } from './assets'
 
 export const setupQuote = () => {
-  const sellAsset: Asset = { ...OSMO }
-  const buyAsset: Asset = { ...ATOM }
+  const sellAsset: any = { ...OSMO }
+  const buyAsset: any = { ...ATOM }
 
   const quoteInput = {
     sellAsset,

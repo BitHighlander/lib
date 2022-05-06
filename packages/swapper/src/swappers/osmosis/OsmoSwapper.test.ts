@@ -3,13 +3,13 @@
  */
 import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
 import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import {ChainTypes, GetQuoteInput, Quote, SwapperType} from '@shapeshiftoss/types'
+import { ChainTypes, GetQuoteInput, Quote, SwapperType } from '@shapeshiftoss/types'
 
 import { OsmoSwapper, ZrxSwapper } from '../..'
 import { getRateInfo } from './OsmoService'
 import { setupQuote } from './test-data/setupSwapQuote'
 
-describe.only('OsmoSwapper', () => {
+describe('OsmoSwapper', () => {
   const sellAmount = '1000000000000000000'
   const input = <GetQuoteInput>{}
   const wallet = <HDWallet>{}

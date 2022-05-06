@@ -4,7 +4,6 @@ import { NativeAdapterArgs, NativeHDWallet } from '@shapeshiftoss/hdwallet-nativ
 import { BIP44Params, ChainTypes } from '@shapeshiftoss/types'
 import dotenv from 'dotenv'
 
-import { cosmossdk } from './'
 import { ChainAdapterManager } from './ChainAdapterManager'
 
 dotenv.config()
