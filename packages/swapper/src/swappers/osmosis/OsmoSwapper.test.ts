@@ -1,23 +1,23 @@
 /*
     osmo Swapper
  */
-import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
-import { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { ChainTypes, GetQuoteInput, Quote, SwapperType } from '@shapeshiftoss/types'
+// import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
+// import { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { SwapperType } from '@shapeshiftoss/types'
 
-import { OsmoSwapper, ZrxSwapper } from '../..'
-import { getRateInfo } from './OsmoService'
+import { OsmoSwapper } from '../..'
+// import { getRateInfo } from './OsmoService'
 import { setupQuote } from './test-data/setupSwapQuote'
 
 describe('OsmoSwapper', () => {
-  const sellAmount = '1000000000000000000'
-  const input = <GetQuoteInput>{}
-  const wallet = <HDWallet>{}
-  const quote = <Quote<ChainTypes>>{}
+  // const sellAmount = '1000000000000000000'
+  // const input = <GetQuoteInput>{}
+  // const wallet = <HDWallet>{}
+  // const quote = <Quote<ChainTypes>>{}
 
-  const swapperDeps = {
-    adapterManager: <ChainAdapterManager>{}
-  }
+  // const swapperDeps = {
+  //   adapterManager: <ChainAdapterManager>{}
+  // }
 
   it('is true', () => {
     expect(true).toBeTruthy()
@@ -35,11 +35,11 @@ describe('OsmoSwapper', () => {
     //     })
     // )
     //
-    const quote = await swapper.getQuote(quoteInput)
-    console.log('(output) quote: buy amount ', quote.buyAmount)
-    console.log('(output) quote: buy rate ', quote.rate)
+    const quoteResp = await swapper.getQuote(quoteInput)
+    console.log('(output) quote: buy amount ', quoteResp.buyAmount)
+    console.log('(output) quote: buy rate ', quoteResp.rate)
 
-    expect(quote.success).toBeTruthy()
+    expect(quoteResp.success).toBeTruthy()
 
     //TODO hardcode to mock
     // expect(quote.feeData).toStrictEqual({
@@ -70,14 +70,13 @@ describe('OsmoSwapper', () => {
   //   //
   // })
 
-  it('executeQuote quote Tx', async () => {
-    const swapper = new OsmoSwapper()
-    const type = swapper.getType()
-
-    const args = { quote, wallet }
-    const resp = await swapper.executeQuote(args)
-
-    //
-    console.log('resp: ', resp)
-  })
+  // it('executeQuote quote Tx', async () => {
+  //   const swapper = new OsmoSwapper()
+  //
+  //   const args = { quote, wallet }
+  //   const resp = await swapper.executeQuote(args)
+  //
+  //   //
+  //   console.log('resp: ', resp)
+  // })
 })
