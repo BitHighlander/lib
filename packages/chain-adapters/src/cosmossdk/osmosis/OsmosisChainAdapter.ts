@@ -77,6 +77,7 @@ export class ChainAdapter
   async signTransaction(signTxInput: chainAdapters.SignTxInput<OsmosisSignTx>): Promise<string> {
     try {
       const { txToSign, wallet } = signTxInput
+      if(!wallet) throw Error("HDwallet not sent!")
       if (supportsOsmosis(wallet)) {
         const signedTx = await wallet.osmosisSignTx(txToSign)
 

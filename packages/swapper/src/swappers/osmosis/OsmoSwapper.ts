@@ -5,7 +5,9 @@ import {
   // @ts-ignore
   CosmosChainAdapter,
   // @ts-ignore
-  OsmosisChainAdapter} from '@shapeshiftoss/chain-adapters/*'
+  OsmosisChainAdapter
+  // @ts-ignore
+} from '@shapeshiftoss/chain-adapters/*'
 import {
   bip32ToAddressNList,
   CosmosWallet,
@@ -40,7 +42,7 @@ import {
 import { DEFAULT_SOURCE } from './constants'
 import { getRateInfo, IsymbolDenomMapping, symbolDenomMapping } from './OsmoService'
 
-const osmoUrl = 'https://lcd-osmosis.keplr.app/'
+const osmoUrl = 'https://lcd-osmosis.keplr.app'
 
 const getMin = async function () {
   return {
@@ -163,8 +165,7 @@ export class OsmoSwapper implements Swapper {
     const sellAsset = args.quote.sellAsset
     const buyAsset = args.quote.buyAsset
     const sellAmount = args.quote.sellAmount
-    // @ts-ignore
-    const { wallet } = args.wallet
+    const wallet = args.wallet
 
     const sellAssetDenom = symbolDenomMapping[sellAsset.symbol as keyof IsymbolDenomMapping]
     const buyAssetDenom = symbolDenomMapping[buyAsset.symbol as keyof IsymbolDenomMapping]
@@ -179,6 +180,8 @@ export class OsmoSwapper implements Swapper {
 
     // const osmosisAdapter = this.adapterManager.byNetwork(sellAsset.network) as OsmosisChainAdapter
 
+    console.info('args: ', args)
+    console.info('wallet: ', wallet)
     const sellAddress = await (wallet as OsmosisWallet).osmosisGetAddress({
       addressNList: bip32ToAddressNList("m/44'/118'/0'/0/0")
     })
@@ -188,11 +191,17 @@ export class OsmoSwapper implements Swapper {
 
     if (!sellAddress) throw new Error('no sell address')
     if (!buyAddress) throw new Error('no buy address')
+    console.info('sellAddress: ', sellAddress)
+    console.info('buyAddress: ', buyAddress)
 
     const accountUrl = `${osmoUrl}/auth/accounts/${sellAddress}`
+    console.info('accountUrl: ', accountUrl)
     const responseAccount = await axios.get(accountUrl)
-    const accountNumber = responseAccount.data.result.value.account_number
-    const sequence = responseAccount.data.result.value.sequence
+    console.info('responseAccount: ', responseAccount.data)
+    const accountNumber = responseAccount.data.result.value.account_number || 0
+    const sequence = responseAccount.data.result.value.sequence || 0
+    console.info('accountNumber: ', accountNumber)
+    console.info('sequence: ', sequence)
 
     const osmoAddressNList = bip32ToAddressNList("m/44'/118'/0'/0/0")
 
@@ -229,8 +238,8 @@ export class OsmoSwapper implements Swapper {
       ]
     }
 
-    const signed = await osmosisAdapter.signTransaction(
-      {
+    const signTxInput = {
+      txToSign: {
         symbol: 'OSMO',
         transaction: {
           tx: tx1,
@@ -240,8 +249,12 @@ export class OsmoSwapper implements Swapper {
           sequence
         }
       },
-      wallet as any
-    )
+      wallet
+    }
+    console.info('signTxInput: ', signTxInput)
+    console.info('signTxInput: ', JSON.stringify(signTxInput))
+    const signed = await osmosisAdapter.signTransaction(signTxInput)
+    console.info('signed: ', signed)
 
     const broadcastTxInput = { tx: signed, symbol: 'OSMO', amount: '0', network: 'OSMO' }
 
