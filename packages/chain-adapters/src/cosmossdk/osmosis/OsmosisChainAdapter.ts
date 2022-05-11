@@ -77,12 +77,12 @@ export class ChainAdapter
   async signTransaction(signTxInput: chainAdapters.SignTxInput<OsmosisSignTx>): Promise<string> {
     try {
       const { txToSign, wallet } = signTxInput
-      if(!wallet) throw Error("HDwallet not sent!")
+      if (!txToSign) throw Error('txToSign not sent!')
+      if (!wallet) throw Error('HDwallet not sent!')
       if (supportsOsmosis(wallet)) {
         const signedTx = await wallet.osmosisSignTx(txToSign)
-
         if (!signedTx) throw new Error('Error signing tx')
-
+        console.info('signedTx: ', signedTx)
         return signedTx.serialized
       } else {
         throw new Error('Wallet does not support Osmosis.')
@@ -485,12 +485,14 @@ export class ChainAdapter
     try {
       if (supportsOsmosis(wallet)) {
         const signedTx = await this.signTransaction(signTxInput)
+        console.info('signedTx: ', signedTx)
         const { data } = await this.providers.http.sendTx({ body: { rawTx: signedTx } })
         return data
       } else {
         throw new Error('Wallet does not support Cosmos.')
       }
     } catch (error) {
+      console.error(error)
       return ErrorHandler(error)
     }
   }

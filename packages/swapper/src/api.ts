@@ -49,13 +49,13 @@ export type BuildTradeInput = CommonTradeInput & {
 
 interface TradeBase<C extends ChainTypes> {
   success: boolean // This will go away when we correctly handle errors
-  statusReason: string // This will go away when we correctly handle errors
+  statusReason?: string // This will go away when we correctly handle errors
   buyAmount: string
   sellAmount: string
   feeData: chainAdapters.QuoteFeeData<C>
   rate: string
-  allowanceContract: string
-  sources: Array<SwapSource>
+  allowanceContract?: string
+  sources?: Array<SwapSource>
   buyAsset: Asset
   sellAsset: Asset
   sellAssetAccountId: string
@@ -67,7 +67,7 @@ export interface TradeQuote<C extends ChainTypes> extends TradeBase<C> {
 }
 
 export interface Trade<C extends ChainTypes> extends TradeBase<C> {
-  txData: string
+  txData?: string
   depositAddress: string
   receiveAddress: string
 }

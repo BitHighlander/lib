@@ -73,23 +73,7 @@ export class OsmoSwapper implements Swapper {
     this.supportAssets = ['cosmos:cosmoshub-4/slip44:118', 'cosmos:osmosis-1/slip44:118']
   }
 
-  buildTrade(args: BuildTradeInput): Promise<Trade<ChainTypes>> {
-    // eslint-disable-next-line no-console
-    console.log('******: ', args)
-    throw new Error('Method not implemented.')
-  }
-  getTradeQuote(input: CommonTradeInput): Promise<TradeQuote<ChainTypes>> {
-    // eslint-disable-next-line no-console
-    console.log('******: ', input)
-    throw new Error('Method not implemented.')
-  }
-  executeTrade(args: ExecuteTradeInput<ChainTypes>): Promise<ExecQuoteOutput> {
-    // eslint-disable-next-line no-console
-    console.log('******: ', args)
-    throw new Error('Method not implemented.')
-  }
-
-  async getQuote(input: GetQuoteInput): Promise<Quote<ChainTypes>> {
+  async getTradeQuote(input: CommonTradeInput): Promise<TradeQuote<ChainTypes>> {
     const { sellAsset, buyAsset, sellAmount } = input
 
     if (!sellAmount) {
@@ -103,69 +87,63 @@ export class OsmoSwapper implements Swapper {
     )
     // console.log('******: ', { rate, priceImpact, tradeFee, buyAmount })
 
-    // @ts-ignore
     return {
       buyAsset,
-      // maximum: MAX_SWAPPER_SELL,
+      feeData: { fee: '100' },
+      maximum: '100',
+      minimum: '10000',
+      sellAssetAccountId: '0',
       rate,
       sellAsset,
       success: true,
-      // feeData: { fee: '100', receiveNetworkFee: tradeFee },
-      sellAmount: input.sellAmount,
+      sellAmount,
       buyAmount,
       sources: DEFAULT_SOURCE
     }
   }
 
-  async buildQuoteTx(input: BuildQuoteTxInput): Promise<Quote<ChainTypes>> {
-    const {
+  async buildTrade(args: BuildTradeInput): Promise<Trade<ChainTypes>> {
+    const { sellAsset, buyAsset, sellAmount } = args
+
+    if (!sellAmount) {
+      throw new Error('sellAmount is required')
+    }
+
+    const { rate, buyAmount } = await getRateInfo(
       sellAsset,
       buyAsset,
-      sellAmount,
-      sellAssetAccountId,
-      buyAssetAccountId
-      // slippage = DEFAULT_SLIPPAGE_TOLERANCE,
-    } = input.input
-
-    if (!sellAmount) throw new Error('OsmosisSwapper:buildQuoteTx sellAmount is required')
-
-    const { buyAmount } = await getRateInfo(sellAsset, buyAsset, sellAmount)
-    // console.log('resp: ', { tradeFee, buyAmount })
+      sellAmount !== '0' ? sellAmount : '1'
+    )
 
     return {
-      success: true,
-      sellAsset,
+      buyAmount,
       buyAsset,
       depositAddress: '',
-      // feeData: { fee: '100', receiveNetworkFee: tradeFee },
-      sellAmount,
-      buyAmount,
-      sources: DEFAULT_SOURCE,
-      sellAssetAccountId,
-      buyAssetAccountId
+      feeData: { fee: '100' },
+      rate,
+      receiveAddress: '',
+      sellAmount: '',
+      sellAsset,
+      sellAssetAccountId: '0',
+      sources: [{ name: 'Osmosis', proportion: '100' }],
+      success: true
     }
   }
 
-  getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
-    console.info(input)
-    throw new Error('OsmoSwapper: getUsdRate unimplemented')
-  }
-
-  getMinMax(input: GetQuoteInput): Promise<MinMaxOutput> {
-    console.info(input)
-    return getMin()
-  }
-
-  async executeQuote(args: ExecQuoteInput<ChainTypes>): Promise<ExecQuoteOutput> {
+  async executeTrade(args: ExecuteTradeInput<ChainTypes>): Promise<ExecQuoteOutput> {
     console.info('args: ', args)
     // const {
     //   // @ts-ignore
     //   quote: { sellAsset, buyAsset, sellAmount }
     // } = args.quote
-    const sellAsset = args.quote.sellAsset
-    const buyAsset = args.quote.buyAsset
-    const sellAmount = args.quote.sellAmount
+    const sellAsset = args.trade.sellAsset
+    const buyAsset = args.trade.buyAsset
+    const sellAmount = args.trade.sellAmount
     const wallet = args.wallet
+    if (!sellAsset) throw Error('missing sellAsset')
+    if (!buyAsset) throw Error('missing buyAsset')
+    if (!sellAmount) throw Error('missing sellAmount')
+    if (!wallet) throw Error('missing wallet')
 
     const sellAssetDenom = symbolDenomMapping[sellAsset.symbol as keyof IsymbolDenomMapping]
     const buyAssetDenom = symbolDenomMapping[buyAsset.symbol as keyof IsymbolDenomMapping]
@@ -188,6 +166,12 @@ export class OsmoSwapper implements Swapper {
     const buyAddress = await (wallet as CosmosWallet).cosmosGetAddress({
       addressNList: bip32ToAddressNList("m/44'/118'/0'/0/0")
     })
+
+    //TODO verify input balance
+    //get IBC balance
+    //if ibc balance low
+    //then do ibc deposit FIRST
+    //wait
 
     if (!sellAddress) throw new Error('no sell address')
     if (!buyAddress) throw new Error('no buy address')
@@ -240,25 +224,40 @@ export class OsmoSwapper implements Swapper {
 
     const signTxInput = {
       txToSign: {
-        symbol: 'OSMO',
-        transaction: {
-          tx: tx1,
-          addressNList: osmoAddressNList,
-          chain_id: 'osmosis-1',
-          account_number: accountNumber,
-          sequence
-        }
+        tx: tx1,
+        addressNList: osmoAddressNList,
+        chain_id: 'osmosis-1',
+        account_number: accountNumber,
+        sequence
       },
       wallet
     }
     console.info('signTxInput: ', signTxInput)
     console.info('signTxInput: ', JSON.stringify(signTxInput))
+
     const signed = await osmosisAdapter.signTransaction(signTxInput)
     console.info('signed: ', signed)
 
-    const broadcastTxInput = { tx: signed, symbol: 'OSMO', amount: '0', network: 'OSMO' }
+    //if broadcast
+    const payload = {
+      tx_bytes: signed,
+      mode: 'BROADCAST_MODE_SYNC'
+    }
+    const urlRemote = osmoUrl + '/cosmos/tx/v1beta1/txs'
+    let txid1 = await axios({
+      url: urlRemote,
+      method: 'POST',
+      data: payload
+    })
+    txid1 = txid1.data
+    console.info('txid1: ', txid1)
 
-    const txid1 = await osmosisAdapter.broadcastTransaction(broadcastTxInput)
+    // const signed = await osmosisAdapter.signAndBroadcastTransaction(signTxInput)
+    // console.info('signed: ', signed)
+
+    // const broadcastTxInput = { tx: signed, symbol: 'OSMO', amount: '0', network: 'OSMO' }
+    //
+    // const txid1 = await osmosisAdapter.broadcastTransaction(broadcastTxInput)
 
     // osmoToAtomCallback(
     //   txid1,
@@ -271,9 +270,188 @@ export class OsmoSwapper implements Swapper {
     //   osmosisAdapter,
     //   osmoAddressNList
     // )
-
+    // @ts-ignore
     return { txid: txid1 }
   }
+
+  // async buildQuoteTx(input: BuildQuoteTxInput): Promise<Quote<ChainTypes>> {
+  //   const {
+  //     sellAsset,
+  //     buyAsset,
+  //     sellAmount,
+  //     sellAssetAccountId,
+  //     buyAssetAccountId
+  //     // slippage = DEFAULT_SLIPPAGE_TOLERANCE,
+  //   } = input.input
+  //
+  //   if (!sellAmount) throw new Error('OsmosisSwapper:buildQuoteTx sellAmount is required')
+  //
+  //   const { buyAmount } = await getRateInfo(sellAsset, buyAsset, sellAmount)
+  //   // console.log('resp: ', { tradeFee, buyAmount })
+  //
+  //   return {
+  //     success: true,
+  //     sellAsset,
+  //     buyAsset,
+  //     depositAddress: '',
+  //     // feeData: { fee: '100', receiveNetworkFee: tradeFee },
+  //     sellAmount,
+  //     buyAmount,
+  //     sources: DEFAULT_SOURCE,
+  //     sellAssetAccountId,
+  //     buyAssetAccountId
+  //   }
+  // }
+
+  getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
+    console.info(input)
+    throw new Error('OsmoSwapper: getUsdRate unimplemented')
+  }
+
+  getMinMax(input: GetQuoteInput): Promise<MinMaxOutput> {
+    console.info(input)
+    return getMin()
+  }
+
+  // async executeQuote(args: ExecQuoteInput<ChainTypes>): Promise<ExecQuoteOutput> {
+  //   console.info('args: ', args)
+  //   // const {
+  //   //   // @ts-ignore
+  //   //   quote: { sellAsset, buyAsset, sellAmount }
+  //   // } = args.quote
+  //   const sellAsset = args.quote.sellAsset
+  //   const buyAsset = args.quote.buyAsset
+  //   const sellAmount = args.quote.sellAmount
+  //   const wallet = args.wallet
+  //
+  //   const sellAssetDenom = symbolDenomMapping[sellAsset.symbol as keyof IsymbolDenomMapping]
+  //   const buyAssetDenom = symbolDenomMapping[buyAsset.symbol as keyof IsymbolDenomMapping]
+  //
+  //   const fee = '100'
+  //   const gas = '1350000'
+  //
+  //   console.info('sellAsset.chain: ', sellAsset.chain)
+  //   console.info('deps: ', this.deps)
+  //   const osmosisAdapter = this.deps.adapterManager.byChain(sellAsset.chain) as OsmosisChainAdapter
+  //   console.info('osmosisAdapter: ', osmosisAdapter)
+  //
+  //   // const osmosisAdapter = this.adapterManager.byNetwork(sellAsset.network) as OsmosisChainAdapter
+  //
+  //   console.info('args: ', args)
+  //   console.info('wallet: ', wallet)
+  //   const sellAddress = await (wallet as OsmosisWallet).osmosisGetAddress({
+  //     addressNList: bip32ToAddressNList("m/44'/118'/0'/0/0")
+  //   })
+  //   const buyAddress = await (wallet as CosmosWallet).cosmosGetAddress({
+  //     addressNList: bip32ToAddressNList("m/44'/118'/0'/0/0")
+  //   })
+  //
+  //   //TODO verify input balance
+  //
+  //   //if ibc balance low
+  //   //then do ibc deposit FIRST
+  //   //wait
+  //
+  //   if (!sellAddress) throw new Error('no sell address')
+  //   if (!buyAddress) throw new Error('no buy address')
+  //   console.info('sellAddress: ', sellAddress)
+  //   console.info('buyAddress: ', buyAddress)
+  //
+  //   const accountUrl = `${osmoUrl}/auth/accounts/${sellAddress}`
+  //   console.info('accountUrl: ', accountUrl)
+  //   const responseAccount = await axios.get(accountUrl)
+  //   console.info('responseAccount: ', responseAccount.data)
+  //   const accountNumber = responseAccount.data.result.value.account_number || 0
+  //   const sequence = responseAccount.data.result.value.sequence || 0
+  //   console.info('accountNumber: ', accountNumber)
+  //   console.info('sequence: ', sequence)
+  //
+  //   const osmoAddressNList = bip32ToAddressNList("m/44'/118'/0'/0/0")
+  //
+  //   const tx1 = {
+  //     memo: '',
+  //     fee: {
+  //       amount: [
+  //         {
+  //           amount: fee.toString(),
+  //           denom: 'uosmo'
+  //         }
+  //       ],
+  //       gas: gas.toString()
+  //     },
+  //     signatures: null,
+  //     msg: [
+  //       {
+  //         type: 'osmosis/gamm/swap-exact-amount-in',
+  //         value: {
+  //           sender: sellAddress,
+  //           routes: [
+  //             {
+  //               poolId: '1', // TODO should probably get this from the util pool call
+  //               tokenOutDenom: buyAssetDenom
+  //             }
+  //           ],
+  //           tokenIn: {
+  //             denom: sellAssetDenom,
+  //             amount: sellAmount
+  //           },
+  //           tokenOutMinAmount: '1' // TODO slippage tolerance
+  //         }
+  //       }
+  //     ]
+  //   }
+  //
+  //   const signTxInput = {
+  //     txToSign: {
+  //       tx: tx1,
+  //       addressNList: osmoAddressNList,
+  //       chain_id: 'osmosis-1',
+  //       account_number: accountNumber,
+  //       sequence
+  //     },
+  //     wallet
+  //   }
+  //   console.info('signTxInput: ', signTxInput)
+  //   console.info('signTxInput: ', JSON.stringify(signTxInput))
+  //
+  //   const signed = await osmosisAdapter.signTransaction(signTxInput)
+  //   console.info('signed: ', signed)
+  //
+  //   //if broadcast
+  //   const payload = {
+  //     tx_bytes: signed,
+  //     mode: 'BROADCAST_MODE_SYNC'
+  //   }
+  //   const urlRemote = osmoUrl + '/cosmos/tx/v1beta1/txs'
+  //   let txid1 = await axios({
+  //     url: urlRemote,
+  //     method: 'POST',
+  //     data: payload
+  //   })
+  //   txid1 = txid1.data
+  //   console.info('txid1: ', txid1)
+  //
+  //   // const signed = await osmosisAdapter.signAndBroadcastTransaction(signTxInput)
+  //   // console.info('signed: ', signed)
+  //
+  //   // const broadcastTxInput = { tx: signed, symbol: 'OSMO', amount: '0', network: 'OSMO' }
+  //   //
+  //   // const txid1 = await osmosisAdapter.broadcastTransaction(broadcastTxInput)
+  //
+  //   // osmoToAtomCallback(
+  //   //   txid1,
+  //   //   sellAddress,
+  //   //   gas,
+  //   //   buyAssetDenom,
+  //   //   buyAddress,
+  //   //   wallet,
+  //   //   accountUrl,
+  //   //   osmosisAdapter,
+  //   //   osmoAddressNList
+  //   // )
+  //   // @ts-ignore
+  //   return { txid: txid1 }
+  // }
 
   // async executeOsmoToAtomQuote(
   //   input: ExecQuoteInput,
