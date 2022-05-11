@@ -1,4 +1,4 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
+import { AssetId } from '@shapeshiftoss/caip'
 import {
   ApprovalNeededOutput,
   Asset,
@@ -6,7 +6,6 @@ import {
   ExecQuoteOutput,
   GetQuoteInput,
   MinMaxOutput,
-  Quote,
   SwapperType
 } from '@shapeshiftoss/types'
 
@@ -15,14 +14,6 @@ import { Swapper, Trade, TradeQuote } from '../../api'
 export class ThorchainSwapper implements Swapper {
   getType() {
     return SwapperType.Thorchain
-  }
-
-  async getQuote(): Promise<Quote<ChainTypes>> {
-    throw new Error('ThorchainSwapper: getQuote unimplemented')
-  }
-
-  async buildQuoteTx(): Promise<Quote<ChainTypes>> {
-    throw new Error('ThorchainSwapper: getQuote unimplemented')
   }
 
   getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
@@ -35,10 +26,6 @@ export class ThorchainSwapper implements Swapper {
     throw new Error('ThorchainSwapper: getMinMax unimplemented')
   }
 
-  async executeQuote(): Promise<ExecQuoteOutput> {
-    throw new Error('ThorchainSwapper: executeQuote unimplemented')
-  }
-
   async approvalNeeded(): Promise<ApprovalNeededOutput> {
     throw new Error('ThorchainSwapper: approvalNeeded unimplemented')
   }
@@ -47,11 +34,11 @@ export class ThorchainSwapper implements Swapper {
     throw new Error('ThorchainSwapper: approveInfinite unimplemented')
   }
 
-  filterBuyAssetsBySellAssetId(): CAIP19[] {
+  filterBuyAssetsBySellAssetId(): AssetId[] {
     return []
   }
 
-  filterAssetIdsBySellable(): CAIP19[] {
+  filterAssetIdsBySellable(): AssetId[] {
     return []
   }
 

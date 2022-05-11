@@ -1,4 +1,4 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
+import { AssetId } from '@shapeshiftoss/caip'
 import {
   ApprovalNeededOutput,
   Asset,
@@ -6,7 +6,6 @@ import {
   ExecQuoteOutput,
   GetQuoteInput,
   MinMaxOutput,
-  Quote,
   SwapperType
 } from '@shapeshiftoss/types'
 
@@ -31,14 +30,6 @@ export class TestSwapper implements Swapper {
     ]
   }
 
-  async getQuote(): Promise<Quote<ChainTypes>> {
-    throw new Error('TestSwapper: getQuote unimplemented')
-  }
-
-  async buildQuoteTx(): Promise<Quote<ChainTypes>> {
-    throw new Error('TestSwapper: getQuote unimplemented')
-  }
-
   getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string> {
     console.info(input)
     throw new Error('TestSwapper: getUsdRate unimplemented')
@@ -49,10 +40,6 @@ export class TestSwapper implements Swapper {
     throw new Error('TestSwapper: getMinMax unimplemented')
   }
 
-  async executeQuote(): Promise<ExecQuoteOutput> {
-    throw new Error('TestSwapper: executeQuote unimplemented')
-  }
-
   async approvalNeeded(): Promise<ApprovalNeededOutput> {
     throw new Error('TestSwapper: approvalNeeded unimplemented')
   }
@@ -61,13 +48,13 @@ export class TestSwapper implements Swapper {
     throw new Error('TestSwapper: approveInfinite unimplemented')
   }
 
-  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): CAIP19[] {
+  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): AssetId[] {
     const { sellAssetId } = args
     if (!this.supportAssets.includes(sellAssetId)) return []
     return this.supportAssets
   }
 
-  filterAssetIdsBySellable(): CAIP19[] {
+  filterAssetIdsBySellable(): AssetId[] {
     return this.supportAssets
   }
 

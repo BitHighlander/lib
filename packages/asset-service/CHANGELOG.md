@@ -1,3 +1,34 @@
+# [@shapeshiftoss/asset-service-v3.0.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/asset-service-v2.6.0...@shapeshiftoss/asset-service-v3.0.0) (2022-05-10)
+
+
+### Performance Improvements
+
+* **assetService:** replace caip properties with their high-level counterparts ([#605](https://github.com/shapeshift/lib/issues/605)) ([f714931](https://github.com/shapeshift/lib/commit/f714931c51c975946ac07efdeda9c27bd770b271))
+
+
+### BREAKING CHANGES
+
+* **assetService:** updates the asset service with caip-free types and vernacular.
+
+Co-authored-by: 0xdef1cafe <88504456+0xdef1cafe@users.noreply.github.com>
+Co-authored-by: kaladinlight <35275952+kaladinlight@users.noreply.github.com>
+
+# [@shapeshiftoss/asset-service-v2.6.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/asset-service-v2.5.0...@shapeshiftoss/asset-service-v2.6.0) (2022-05-06)
+
+
+### Features
+
+* **caip:** flatten exports ([#560](https://github.com/shapeshift/lib/issues/560)) ([e326522](https://github.com/shapeshift/lib/commit/e3265223dca3c2126b2822395353f6650c4b0342))
+
+# [@shapeshiftoss/asset-service-v2.5.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/asset-service-v2.4.6...@shapeshiftoss/asset-service-v2.5.0) (2022-05-06)
+
+
+### Features
+
+* regenerate asset data with assetId as sorting criteria ([#620](https://github.com/shapeshift/lib/issues/620)) ([716e2e1](https://github.com/shapeshift/lib/commit/716e2e13847f58eadd5ec90dbd0d2c52db6d62cf))
+
+# [@shapeshiftoss/asset-service-v2.4.6](https://github.com/shapeshift/lib/compare/@shapeshiftoss/asset-service-v2.4.5...@shapeshiftoss/asset-service-v2.4.6) (2022-05-05)
+
 # [@shapeshiftoss/asset-service-v2.4.5](https://github.com/shapeshift/lib/compare/@shapeshiftoss/asset-service-v2.4.4...@shapeshiftoss/asset-service-v2.4.5) (2022-05-03)
 
 

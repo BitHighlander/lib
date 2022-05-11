@@ -1,4 +1,10 @@
-import { AssetNamespace, AssetReference, caip2, CAIP19, caip19 } from '@shapeshiftoss/caip'
+import {
+  AssetId,
+  AssetNamespace,
+  AssetReference,
+  fromChainId,
+  toAssetId,
+  AssetNamespace, AssetReference, caip2, CAIP19 } from '@shapeshiftoss/caip'
 import {
   bip32ToAddressNList,
   CosmosSignTx,
@@ -21,7 +27,7 @@ export class ChainAdapter
 {
   protected readonly supportedChainIds = ['cosmos:osmosis-1', 'cosmos:osmo-testnet-1']
   protected readonly chainId = this.supportedChainIds[0]
-  protected readonly assetId: CAIP19
+  protected readonly assetId: AssetId
 
   protected readonly CHAIN_VALIDATOR_PREFIX_MAPPING = {
     [ChainTypes.Osmosis]: 'osmovaloper'
@@ -36,9 +42,9 @@ export class ChainAdapter
   constructor(args: ChainAdapterArgs) {
     super(args)
 
-    const { chain, network } = caip2.fromCAIP2(this.chainId)
+    const { chain, network } = fromChainId(this.chainId)
 
-    this.assetId = caip19.toCAIP19({
+    this.assetId = toAssetId({
       chain,
       network,
       assetNamespace: AssetNamespace.Slip44,
@@ -82,7 +88,7 @@ export class ChainAdapter
       if (supportsOsmosis(wallet)) {
         const signedTx = await wallet.osmosisSignTx(txToSign)
         if (!signedTx) throw new Error('Error signing tx')
-        console.info('signedTx: ', signedTx)
+
         return signedTx.serialized
       } else {
         throw new Error('Wallet does not support Osmosis.')

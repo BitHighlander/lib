@@ -1,12 +1,10 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
+import { AssetId } from '@shapeshiftoss/caip'
 import { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import {
   ApprovalNeededOutput,
   Asset,
-  BuildQuoteTxInput,
   chainAdapters,
   ChainTypes,
-  ExecQuoteInput,
   ExecQuoteOutput,
   GetQuoteInput,
   MinMaxOutput,
@@ -14,21 +12,21 @@ import {
   SwapperType
 } from '@shapeshiftoss/types'
 export type SupportedAssetInput = {
-  assetIds: CAIP19[]
+  assetIds: AssetId[]
 }
 
 export type ByPairInput = {
-  sellAssetId: CAIP19
-  buyAssetId: CAIP19
+  sellAssetId: AssetId
+  buyAssetId: AssetId
 }
 
 export type BuyAssetBySellIdInput = {
-  sellAssetId: CAIP19
-  assetIds: CAIP19[]
+  sellAssetId: AssetId
+  assetIds: AssetId[]
 }
 
 export type SupportedSellAssetsInput = {
-  assetIds: CAIP19[]
+  assetIds: AssetId[]
 }
 
 export type CommonTradeInput = {
@@ -113,18 +111,6 @@ export interface Swapper {
   getTradeQuote(input: GetTradeQuoteInput): Promise<TradeQuote<ChainTypes>>
 
   /**
-   * Get a Quote along with an unsigned transaction that can be signed and broadcast to execute the swap
-   * @deprecated The method is going away soon.
-   **/
-  buildQuoteTx(args: BuildQuoteTxInput): Promise<Quote<ChainTypes>>
-
-  /**
-   * Get a basic quote (rate) for a trading pair
-   * @deprecated The method is going away soon.
-   */
-  getQuote(input: GetQuoteInput, wallet?: HDWallet): Promise<Quote<ChainTypes>>
-
-  /**
    * Get the usd rate from either the assets symbol or tokenId
    */
   getUsdRate(input: Pick<Asset, 'symbol' | 'tokenId'>): Promise<string>
@@ -133,11 +119,6 @@ export interface Swapper {
    * Get the minimum and maximum trade value of the sellAsset and buyAsset
    */
   getMinMax(input: GetQuoteInput): Promise<MinMaxOutput>
-
-  /**
-   * Execute a quote built with buildQuoteTx by signing and broadcasting
-   */
-  executeQuote(args: ExecQuoteInput<ChainTypes>): Promise<ExecQuoteOutput>
 
   /**
    * Execute a trade built with buildTrade by signing and broadcasting
@@ -157,10 +138,10 @@ export interface Swapper {
   /**
    * Get supported buyAssetId's by sellAssetId
    */
-  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): CAIP19[]
+  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): AssetId[]
 
   /**
    * Get supported sell assetIds
    */
-  filterAssetIdsBySellable(assetIds: CAIP19[]): CAIP19[]
+  filterAssetIdsBySellable(assetIds: AssetId[]): AssetId[]
 }

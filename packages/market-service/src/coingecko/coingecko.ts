@@ -1,4 +1,4 @@
-import { adapters, caip19 as AssetId } from '@shapeshiftoss/caip'
+import { adapters, fromAssetId } from '@shapeshiftoss/caip'
 import {
   ChainTypes,
   FindAllMarketArgs,
@@ -19,7 +19,6 @@ import { isValidDate } from '../utils/isValidDate'
 import { rateLimitedAxios } from '../utils/rateLimiters'
 import { CoinGeckoMarketCap } from './coingecko-types'
 
-const { fromCAIP19 } = AssetId
 const axios = rateLimitedAxios(RATE_LIMIT_THRESHOLDS_PER_MINUTE.COINGECKO)
 
 // tons more params here: https://www.coingecko.com/en/api/documentation
@@ -68,10 +67,10 @@ export class CoinGeckoMarketService implements MarketService {
         .reduce((acc, cur) => {
           const { id } = cur
           try {
-            const caip19 = adapters.coingeckoToCAIP19(id)
-            if (!caip19) return acc
+            const assetId = adapters.coingeckoToAssetId(id)
+            if (!assetId) return acc
             const curWithoutId = omit(cur, 'id') // don't leak this through to clients
-            acc[caip19] = {
+            acc[assetId] = {
               price: curWithoutId.current_price.toString(),
               marketCap: curWithoutId.market_cap.toString(),
               volume: curWithoutId.total_volume.toString(),
@@ -79,7 +78,7 @@ export class CoinGeckoMarketService implements MarketService {
             }
             return acc
           } catch {
-            return acc // no caip found, we don't support this asset
+            return acc // no AssetId found, we don't support this asset
           }
         }, {} as MarketCapResult)
     } catch (e) {
@@ -87,12 +86,12 @@ export class CoinGeckoMarketService implements MarketService {
     }
   }
 
-  findByCaip19 = async ({ caip19 }: MarketDataArgs): Promise<MarketData | null> => {
+  findByAssetId = async ({ assetId }: MarketDataArgs): Promise<MarketData | null> => {
     try {
-      if (!adapters.CAIP19ToCoingecko(caip19)) return null
-      const { chain, assetReference } = fromCAIP19(caip19)
+      if (!adapters.assetIdToCoingecko(assetId)) return null
+      const { chain, assetReference } = fromAssetId(assetId)
       const isToken = chain === ChainTypes.Ethereum && assetReference.startsWith('0x')
-      const id = isToken ? 'ethereum' : adapters.CAIP19ToCoingecko(caip19)
+      const id = isToken ? 'ethereum' : adapters.assetIdToCoingecko(assetId)
       const contractUrl = isToken ? `/contract/${assetReference}` : ''
 
       const { data }: { data: CoinGeckoAssetData } = await axios.get(
@@ -109,19 +108,19 @@ export class CoinGeckoMarketService implements MarketService {
       }
     } catch (e) {
       console.warn(e)
-      throw new Error('CoinGeckoMarketService(findByCaip19): error fetching market data')
+      throw new Error('CoinGeckoMarketService(findByAssetId): error fetching market data')
     }
   }
 
-  findPriceHistoryByCaip19 = async ({
-    caip19,
+  findPriceHistoryByAssetId = async ({
+    assetId,
     timeframe
   }: PriceHistoryArgs): Promise<HistoryData[]> => {
-    if (!adapters.CAIP19ToCoingecko(caip19)) return []
+    if (!adapters.assetIdToCoingecko(assetId)) return []
     try {
-      const { chain, assetReference } = fromCAIP19(caip19)
+      const { chain, assetReference } = fromAssetId(assetId)
       const isToken = chain === ChainTypes.Ethereum && assetReference.startsWith('0x')
-      const id = isToken ? 'ethereum' : adapters.CAIP19ToCoingecko(caip19)
+      const id = isToken ? 'ethereum' : adapters.assetIdToCoingecko(assetId)
       const contract = isToken ? `/contract/${assetReference}` : ''
 
       const end = dayjs().startOf('minute')
@@ -180,7 +179,7 @@ export class CoinGeckoMarketService implements MarketService {
     } catch (e) {
       console.warn(e)
       throw new Error(
-        'CoinGeckoMarketService(findPriceHistoryByCaip19): error fetching price history'
+        'CoinGeckoMarketService(findPriceHistoryByAssetId): error fetching price history'
       )
     }
   }

@@ -1,3 +1,43 @@
+# [@shapeshiftoss/chain-adapters-v3.0.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.15.0...@shapeshiftoss/chain-adapters-v3.0.0) (2022-05-10)
+
+
+### Performance Improvements
+
+* **chainAdapters:** replace caip properties with their high-level counterparts ([#606](https://github.com/shapeshift/lib/issues/606)) ([49e8fef](https://github.com/shapeshift/lib/commit/49e8fefabb6eaaecb357ddc16e11ad2080eb3082))
+
+
+### BREAKING CHANGES
+
+* **chainAdapters:** updates chain adapters with caip-free types and vernacular.
+
+* cleanup unchained commit cherry-pick
+
+* Remove caip comment
+
+* bump chain-adapters version and regen yarn lock
+
+* chore: update yarn.lock
+
+* chore: update yarn.lock
+
+Co-authored-by: kaladinlight <35275952+kaladinlight@users.noreply.github.com>
+
+# [@shapeshiftoss/chain-adapters-v2.15.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.14.0...@shapeshiftoss/chain-adapters-v2.15.0) (2022-05-06)
+
+
+### Features
+
+* add getSupportedAccountTypes to specific ChainAdapters ([#611](https://github.com/shapeshift/lib/issues/611)) ([f7aa9da](https://github.com/shapeshift/lib/commit/f7aa9da827811dbb5f3a352d3fd40cb19c07bfd9))
+
+# [@shapeshiftoss/chain-adapters-v2.14.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.13.10...@shapeshiftoss/chain-adapters-v2.14.0) (2022-05-06)
+
+
+### Features
+
+* **caip:** flatten exports ([#560](https://github.com/shapeshift/lib/issues/560)) ([e326522](https://github.com/shapeshift/lib/commit/e3265223dca3c2126b2822395353f6650c4b0342))
+
+# [@shapeshiftoss/chain-adapters-v2.13.10](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.13.9...@shapeshiftoss/chain-adapters-v2.13.10) (2022-05-05)
+
 # [@shapeshiftoss/chain-adapters-v2.13.9](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.13.8...@shapeshiftoss/chain-adapters-v2.13.9) (2022-05-05)
 
 # [@shapeshiftoss/chain-adapters-v2.13.8](https://github.com/shapeshift/lib/compare/@shapeshiftoss/chain-adapters-v2.13.7...@shapeshiftoss/chain-adapters-v2.13.8) (2022-05-05)

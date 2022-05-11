@@ -1,3 +1,30 @@
+# [@shapeshiftoss/market-service-v3.0.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v2.3.0...@shapeshiftoss/market-service-v3.0.0) (2022-05-10)
+
+
+### Performance Improvements
+
+* **marketService:** replace caip properties with their high-level counterparts ([#607](https://github.com/shapeshift/lib/issues/607)) ([85a7cd2](https://github.com/shapeshift/lib/commit/85a7cd2b7004b425badc7c965385553fe9823ce8))
+
+
+### BREAKING CHANGES
+
+* **marketService:** updates the market service with caip-free types and vernacular.
+
+* chore: use local FindByAssetIdMarketType
+
+* chore: do not import from source
+
+Co-authored-by: kaladinlight <35275952+kaladinlight@users.noreply.github.com>
+
+# [@shapeshiftoss/market-service-v2.3.0](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v2.2.3...@shapeshiftoss/market-service-v2.3.0) (2022-05-06)
+
+
+### Features
+
+* **caip:** flatten exports ([#560](https://github.com/shapeshift/lib/issues/560)) ([e326522](https://github.com/shapeshift/lib/commit/e3265223dca3c2126b2822395353f6650c4b0342))
+
+# [@shapeshiftoss/market-service-v2.2.3](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v2.2.2...@shapeshiftoss/market-service-v2.2.3) (2022-05-05)
+
 # [@shapeshiftoss/market-service-v2.2.2](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v2.2.1...@shapeshiftoss/market-service-v2.2.2) (2022-05-03)
 
 # [@shapeshiftoss/market-service-v2.2.1](https://github.com/shapeshift/lib/compare/@shapeshiftoss/market-service-v2.2.0...@shapeshiftoss/market-service-v2.2.1) (2022-05-02)

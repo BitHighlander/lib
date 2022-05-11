@@ -12,12 +12,11 @@ import { OsmoSwapper } from './swappers/osmosis/OsmoSwapper'
 // import { ZrxSwapper } from './swappers/zrx/ZrxSwapper'
 
 dotenv.config()
-dotenv.config({ path: '../.env' })
 
 const {
-  // UNCHAINED_HTTP_API = 'http://localhost:31300',
-  // UNCHAINED_WS_API = 'wss://localhost:31300',
-  // ETH_NODE_URL = 'http://localhost:3000',
+  UNCHAINED_HTTP_API = 'http://localhost:31300',
+  UNCHAINED_WS_API = 'wss://localhost:31300',
+  ETH_NODE_URL = 'http://localhost:3000',
   DEVICE_ID = 'device123',
   MNEMONIC = 'salon adapt foil saddle orient make page zero cheese marble test catalog'
 } = process.env
@@ -130,18 +129,12 @@ const main = async (): Promise<void> => {
   const swapper = manager.getSwapper(SwapperType.Osmosis)
   const sellAmountBase = toBaseUnit(sellAmount, sellAsset.precision)
 
-  // const osmoSwapper = new OsmoSwapper()
-  // manager.addSwapper(SwapperType.Osmosis, osmoSwapper)
-
-  const quote = await swapper.buildQuoteTx({
-    input: {
-      sellAsset,
-      buyAsset,
-      sellAmount: sellAmountBase,
-      sellAssetAccountId: '0',
-      buyAssetAccountId: '0'
-    },
-    wallet
+  const quote = await swapper.getTradeQuote({
+    sellAsset,
+    buyAsset,
+    sellAmount: sellAmountBase,
+    sellAssetAccountId: '0',
+    sendMax: false
   })
 
   console.info('quote = ', JSON.stringify(quote))
@@ -159,7 +152,16 @@ const main = async (): Promise<void> => {
     } on ${swapper.getType()}? (y/n): `
   )
   if (answer === 'y') {
-    const txid = await swapper.executeQuote({ quote, wallet })
+    const trade = await swapper.buildTrade({
+      wallet,
+      buyAsset,
+      sendMax: false,
+      sellAmount: sellAmountBase,
+      sellAsset,
+      sellAssetAccountId: '0',
+      buyAssetAccountId: '0'
+    })
+    const txid = await swapper.executeTrade({ trade, wallet })
     console.info('broadcast tx with id: ', txid)
   }
 }
