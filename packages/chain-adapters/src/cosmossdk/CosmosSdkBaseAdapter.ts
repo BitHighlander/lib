@@ -24,7 +24,7 @@ const CHAIN_TO_BECH32_PREFIX_MAPPING = {
   [ChainTypes.Osmosis]: 'osmo'
 }
 
-export const transformValidator = (
+const transformValidator = (
   validator: unchained.cosmos.Validator
 ): chainAdapters.cosmos.Validator => ({
   address: validator.address,
@@ -44,7 +44,7 @@ export abstract class CosmosSdkBaseAdapter<T extends CosmosChainTypes> implement
     ws: unchained.ws.Client<unchained.cosmos.Tx> | unchained.ws.Client<unchained.osmosis.Tx>
   }
 
-  protected parser: unchained.cosmos.TransactionParser | unchained.osmosis.TransactionParser
+  protected parser: unchained.cosmos.TransactionParser
 
   static defaultBIP44Params: BIP44Params
 
@@ -66,17 +66,7 @@ export abstract class CosmosSdkBaseAdapter<T extends CosmosChainTypes> implement
     return this.chainId
   }
 
-  // async getInfo(): Promise<chainAdapters.cosmos.Info> {
-  //   try {
-  //     const { data } = await this.providers.http.getInfo()
-  //     return {
-  //       totalSupply: data.totalSupply,
-  //       bondedTokens: data.bondedTokens
-  //     }
-  //   } catch (err) {
-  //     return ErrorHandler(err)
-  //   }
-  // }
+  abstract getFeeAssetId(): AssetId
 
   async getAccount(pubkey: string): Promise<chainAdapters.Account<T>> {
     try {
@@ -190,7 +180,6 @@ export abstract class CosmosSdkBaseAdapter<T extends CosmosChainTypes> implement
         transactions: txs
       }
     } catch (err) {
-
       return ErrorHandler(err)
     }
   }

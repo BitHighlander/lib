@@ -53,6 +53,7 @@ export class ChainAdapterManager {
               () => new cosmos.ChainAdapter({ providers: { http, ws }, coinName: 'Cosmos' })
             )
           }
+
           case ChainTypes.Osmosis: {
             const http = new unchained.osmosis.V1Api(
               new unchained.osmosis.Configuration({ basePath: httpUrl })

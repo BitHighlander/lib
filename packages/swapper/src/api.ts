@@ -1,19 +1,38 @@
 import { AssetId } from '@shapeshiftoss/caip'
+import { createErrorClass } from '@shapeshiftoss/errors'
 import { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import {
   ApprovalNeededOutput,
   Asset,
-  chainAdapters,
-  ChainTypes,
+  ChainSpecific,
   ExecQuoteOutput,
-  GetQuoteInput,
+  GetMinMaxInput,
   MinMaxOutput,
-  Quote,
+  SupportedChainIds,
   SwapperType
 } from '@shapeshiftoss/types'
+
+export const SwapError = createErrorClass('SwapError')
+
 export type SupportedAssetInput = {
   assetIds: AssetId[]
 }
+
+type ChainSpecificQuoteFeeData<T1> = ChainSpecific<
+  T1,
+  {
+    'eip155:1': {
+      estimatedGas?: string
+      gasPrice?: string
+      approvalFee?: string
+      totalFee?: string
+    }
+  }
+>
+
+export type QuoteFeeData<T1 extends SupportedChainIds> = {
+  fee: string
+} & ChainSpecificQuoteFeeData<T1>
 
 export type ByPairInput = {
   sellAssetId: AssetId
@@ -32,8 +51,7 @@ export type SupportedSellAssetsInput = {
 export type CommonTradeInput = {
   sellAsset: Asset
   buyAsset: Asset
-  sellAmount?: string
-  buyAmount?: string
+  sellAmount: string
   sendMax: boolean
   sellAssetAccountId: string
 }
@@ -45,32 +63,32 @@ export type BuildTradeInput = CommonTradeInput & {
   wallet: HDWallet
 }
 
-interface TradeBase<C extends ChainTypes> {
+interface TradeBase<C extends SupportedChainIds> {
   success: boolean // This will go away when we correctly handle errors
-  statusReason?: string // This will go away when we correctly handle errors
+  statusReason: string // This will go away when we correctly handle errors
   buyAmount: string
   sellAmount: string
-  feeData: chainAdapters.QuoteFeeData<C>
+  feeData: QuoteFeeData<C>
   rate: string
-  allowanceContract?: string
-  sources?: Array<SwapSource>
+  allowanceContract: string
+  sources: Array<SwapSource>
   buyAsset: Asset
   sellAsset: Asset
   sellAssetAccountId: string
 }
 
-export interface TradeQuote<C extends ChainTypes> extends TradeBase<C> {
+export interface TradeQuote<C extends SupportedChainIds> extends TradeBase<C> {
   minimum: string
   maximum: string
 }
 
-export interface Trade<C extends ChainTypes> extends TradeBase<C> {
-  txData?: string
+export interface Trade<C extends SupportedChainIds> extends TradeBase<C> {
+  txData: string
   depositAddress: string
   receiveAddress: string
 }
 
-export type ExecuteTradeInput<C extends ChainTypes> = {
+export type ExecuteTradeInput<C extends SupportedChainIds> = {
   trade: Trade<C>
   wallet: HDWallet
 }
@@ -84,17 +102,34 @@ export type SwapSource = {
   proportion: string
 }
 
-export type ApproveInfiniteInput<C extends ChainTypes> = {
-  quote: Quote<C> | TradeQuote<C>
+export type ApproveInfiniteInput<C extends SupportedChainIds> = {
+  quote: TradeQuote<C>
   wallet: HDWallet
 }
 
-export type ApprovalNeededInput<C extends ChainTypes> = {
-  quote: Quote<C> | TradeQuote<C>
+export type ApprovalNeededInput<C extends SupportedChainIds> = {
+  quote: TradeQuote<C>
   wallet: HDWallet
 }
 
-export class SwapError extends Error {}
+// Swap Errors
+export enum SwapErrorTypes {
+  ALLOWANCE_REQUIRED_FAILED = 'ALLOWANCE_REQUIRED_FAILED',
+  CHECK_APPROVAL_FAILED = 'CHECK_APPROVAL_FAILED',
+  APPROVE_INFINITE_FAILED = 'APPROVE_INFINITE_FAILED',
+  BUILD_TRADE_FAILED = 'BUILD_TRADE_FAILED',
+  EXECUTE_TRADE_FAILED = 'EXECUTE_TRADE_FAILED',
+  GRANT_ALLOWANCE_FAILED = 'GRANT_ALLOWANCE_FAILED',
+  MANAGER_ERROR = 'MANAGER_ERROR',
+  MIN_MAX_FAILED = 'MIN_MAX_FAILED',
+  SIGN_AND_BROADCAST_FAILED = 'SIGN_AND_BROADCAST_FAILED',
+  TRADE_QUOTE_FAILED = 'TRADE_QUOTE_FAILED',
+  UNSUPPORTED_PAIR = 'UNSUPPORTED_PAIR',
+  USD_RATE_FAILED = 'USD_RATE_FAILED',
+  UNSUPPORTED_CHAIN = 'UNSUPPORTED_CHAIN',
+  VALIDATION_FAILED = 'VALIDATION_FAILED',
+  RESPONSE_ERROR = 'RESPONSE_ERROR'
+}
 
 export interface Swapper {
   /** Returns the swapper type */
@@ -103,12 +138,12 @@ export interface Swapper {
   /**
    * Get builds a trade with definitive rate & txData that can be executed with executeTrade
    **/
-  buildTrade(args: BuildTradeInput): Promise<Trade<ChainTypes>>
+  buildTrade(args: BuildTradeInput): Promise<Trade<SupportedChainIds>>
 
   /**
    * Get a trade quote
    */
-  getTradeQuote(input: GetTradeQuoteInput): Promise<TradeQuote<ChainTypes>>
+  getTradeQuote(input: GetTradeQuoteInput): Promise<TradeQuote<SupportedChainIds>>
 
   /**
    * Get the usd rate from either the assets symbol or tokenId
@@ -118,22 +153,22 @@ export interface Swapper {
   /**
    * Get the minimum and maximum trade value of the sellAsset and buyAsset
    */
-  getMinMax(input: GetQuoteInput): Promise<MinMaxOutput>
+  getMinMax(input: GetMinMaxInput): Promise<MinMaxOutput>
 
   /**
    * Execute a trade built with buildTrade by signing and broadcasting
    */
-  executeTrade(args: ExecuteTradeInput<ChainTypes>): Promise<ExecQuoteOutput>
+  executeTrade(args: ExecuteTradeInput<SupportedChainIds>): Promise<ExecQuoteOutput>
 
   /**
    * Get a boolean if a quote needs approval
    */
-  approvalNeeded(args: ApprovalNeededInput<ChainTypes>): Promise<ApprovalNeededOutput>
+  approvalNeeded(args: ApprovalNeededInput<SupportedChainIds>): Promise<ApprovalNeededOutput>
 
   /**
    * Get the txid of an approve infinite transaction
    */
-  approveInfinite(args: ApproveInfiniteInput<ChainTypes>): Promise<string>
+  approveInfinite(args: ApproveInfiniteInput<SupportedChainIds>): Promise<string>
 
   /**
    * Get supported buyAssetId's by sellAssetId

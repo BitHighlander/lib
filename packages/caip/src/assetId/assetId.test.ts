@@ -1,8 +1,20 @@
 import { ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
 
-import { AssetNamespace, AssetReference, fromAssetId, toAssetId } from './assetId'
+import {
+  ASSET_REFERENCE,
+  AssetNamespace,
+  AssetReference,
+  fromAssetId,
+  fromCAIP19,
+  toAssetId,
+  toCAIP19
+} from './assetId'
 
 describe('assetId', () => {
+  it('should have matching CAIP19 aliases', () => {
+    expect(toAssetId).toEqual(toCAIP19)
+    expect(fromAssetId).toEqual(fromCAIP19)
+  })
   describe('toAssetId', () => {
     describe('toAssetId(fromAssetId())', () => {
       it.each([
@@ -27,8 +39,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Ethereum
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Ethereum
       })
       expect(result).toEqual('eip155:1/slip44:60')
     })
@@ -39,8 +51,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Ethereum
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Ethereum
       })
       expect(result).toEqual('eip155:3/slip44:60')
     })
@@ -52,8 +64,8 @@ describe('assetId', () => {
         toAssetId({
           chain,
           network,
-          assetNamespace: AssetNamespace.Slip44,
-          assetReference: AssetReference.Ethereum
+          assetNamespace: 'slip44',
+          assetReference: ASSET_REFERENCE.Ethereum
         })
       ).toThrow()
     })
@@ -64,8 +76,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Cosmos
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Cosmos
       })
       expect(result).toEqual('cosmos:cosmoshub-4/slip44:118')
     })
@@ -76,7 +88,7 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
+        assetNamespace: 'slip44',
         assetReference: '118'
       })
       expect(result).toEqual('cosmos:cosmoshub-4/slip44:118')
@@ -88,7 +100,7 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
+        assetNamespace: 'slip44',
         assetReference: '118'
       })
       expect(result).toEqual('cosmos:osmosis-1/slip44:118')
@@ -97,7 +109,7 @@ describe('assetId', () => {
     it('can return ibc AssetId for osmosis', () => {
       const chain = ChainTypes.Osmosis
       const network = NetworkTypes.OSMOSIS_MAINNET
-      const assetNamespace = AssetNamespace.IBC
+      const assetNamespace = 'ibc'
       const assetReference = '346786EA82F41FE55FAD14BF69AD8BA9B36985406E43F3CB23E6C45A285A9593'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual(
@@ -108,7 +120,7 @@ describe('assetId', () => {
     it('can return native AssetId for osmosis', () => {
       const chain = ChainTypes.Osmosis
       const network = NetworkTypes.OSMOSIS_MAINNET
-      const assetNamespace = AssetNamespace.NATIVE
+      const assetNamespace = 'native'
       const assetReference = 'uion'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('cosmos:osmosis-1/native:uion')
@@ -117,7 +129,7 @@ describe('assetId', () => {
     it('can return cw20 AssetId for osmosis', () => {
       const chain = ChainTypes.Osmosis
       const network = NetworkTypes.OSMOSIS_MAINNET
-      const assetNamespace = AssetNamespace.CW20
+      const assetNamespace = 'cw20'
       const assetReference = 'canlab'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('cosmos:osmosis-1/cw20:canlab')
@@ -126,7 +138,7 @@ describe('assetId', () => {
     it('can return cw721 AssetId for osmosis', () => {
       const chain = ChainTypes.Osmosis
       const network = NetworkTypes.OSMOSIS_MAINNET
-      const assetNamespace = AssetNamespace.CW721
+      const assetNamespace = 'cw721'
       const assetReference = 'osmosiskitty'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('cosmos:osmosis-1/cw721:osmosiskitty')
@@ -138,8 +150,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Cosmos
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Cosmos
       })
       expect(result).toEqual('cosmos:vega-testnet/slip44:118')
     })
@@ -151,8 +163,8 @@ describe('assetId', () => {
         toAssetId({
           chain,
           network,
-          assetNamespace: AssetNamespace.Slip44,
-          assetReference: AssetReference.Cosmos
+          assetNamespace: 'slip44',
+          assetReference: ASSET_REFERENCE.Cosmos
         })
       ).toThrow()
     })
@@ -160,7 +172,7 @@ describe('assetId', () => {
     it('throws with invalid Cosmos slip44 reference', () => {
       const chain = ChainTypes.Cosmos
       const network = NetworkTypes.COSMOSHUB_MAINNET
-      const assetNamespace = AssetNamespace.Slip44
+      const assetNamespace = 'slip44'
       expect(() => toAssetId({ chain, network, assetNamespace, assetReference: 'bad' })).toThrow()
     })
 
@@ -171,8 +183,8 @@ describe('assetId', () => {
         toAssetId({
           chain,
           network,
-          assetNamespace: AssetNamespace.Slip44,
-          assetReference: AssetReference.Bitcoin
+          assetNamespace: 'slip44',
+          assetReference: ASSET_REFERENCE.Bitcoin
         })
       ).toThrow()
     })
@@ -180,7 +192,7 @@ describe('assetId', () => {
     it('can make FOX AssetId on mainnet', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = '0xc770eefad204b5180df6a14ee197d99d808ee52d'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('eip155:1/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d')
@@ -189,7 +201,7 @@ describe('assetId', () => {
     it('should lower case ERC20 asset references', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = '0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('eip155:1/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d')
@@ -198,7 +210,7 @@ describe('assetId', () => {
     it('should lower case ERC721 asset references', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC721
+      const assetNamespace = 'erc721'
       const assetReference = '0xc770EEfAd204B5180dF6a14Ee197D99d808ee52d'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('eip155:1/erc721:0xc770eefad204b5180df6a14ee197d99d808ee52d')
@@ -207,7 +219,7 @@ describe('assetId', () => {
     it('can make FOX AssetId on ropsten', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.ETH_ROPSTEN
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = '0xc770eefad204b5180df6a14ee197d99d808ee52d'
       const result = toAssetId({ chain, network, assetNamespace, assetReference })
       expect(result).toEqual('eip155:3/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d')
@@ -216,7 +228,7 @@ describe('assetId', () => {
     it('throws with invalid assetReference length', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = '0xfoo'
       expect(() => toAssetId({ chain, network, assetNamespace, assetReference })).toThrow()
     })
@@ -224,7 +236,7 @@ describe('assetId', () => {
     it('throws with no assetReference string', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = ''
       expect(() => toAssetId({ chain, network, assetNamespace, assetReference })).toThrow()
     })
@@ -232,7 +244,7 @@ describe('assetId', () => {
     it('throws with invalid assetReference string', () => {
       const chain = ChainTypes.Ethereum
       const network = NetworkTypes.MAINNET
-      const assetNamespace = AssetNamespace.ERC20
+      const assetNamespace = 'erc20'
       const assetReference = 'gm'
       expect(() => toAssetId({ chain, network, assetNamespace, assetReference })).toThrow()
     })
@@ -251,8 +263,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Bitcoin
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Bitcoin
       })
       expect(result).toEqual('bip122:000000000019d6689c085ae165831e93/slip44:0')
     })
@@ -263,8 +275,8 @@ describe('assetId', () => {
       const result = toAssetId({
         chain,
         network,
-        assetNamespace: AssetNamespace.Slip44,
-        assetReference: AssetReference.Bitcoin
+        assetNamespace: 'slip44',
+        assetReference: ASSET_REFERENCE.Bitcoin
       })
       expect(result).toEqual('bip122:000000000933ea01ad0ee984209779ba/slip44:0')
     })
@@ -272,53 +284,32 @@ describe('assetId', () => {
 
   describe('fromAssetId', () => {
     describe('fromAssetId(toAssetId())', () => {
+      const slip44: AssetNamespace = 'slip44'
+      const erc20: AssetNamespace = 'erc20'
+      const ibc: AssetNamespace = 'ibc'
+      const native: AssetNamespace = 'native'
       it.each([
-        [ChainTypes.Bitcoin, NetworkTypes.MAINNET, AssetNamespace.Slip44, AssetReference.Bitcoin],
-        [ChainTypes.Bitcoin, NetworkTypes.TESTNET, AssetNamespace.Slip44, AssetReference.Bitcoin],
-        [ChainTypes.Ethereum, NetworkTypes.MAINNET, AssetNamespace.Slip44, AssetReference.Ethereum],
-        [
-          ChainTypes.Ethereum,
-          NetworkTypes.ETH_ROPSTEN,
-          AssetNamespace.Slip44,
-          AssetReference.Ethereum
-        ],
+        [ChainTypes.Bitcoin, NetworkTypes.MAINNET, slip44, ASSET_REFERENCE.Bitcoin],
+        [ChainTypes.Bitcoin, NetworkTypes.TESTNET, slip44, ASSET_REFERENCE.Bitcoin],
+        [ChainTypes.Ethereum, NetworkTypes.MAINNET, slip44, ASSET_REFERENCE.Ethereum],
+        [ChainTypes.Ethereum, NetworkTypes.ETH_ROPSTEN, slip44, ASSET_REFERENCE.Ethereum],
         [
           ChainTypes.Ethereum,
           NetworkTypes.MAINNET,
-          AssetNamespace.ERC20,
+          erc20,
           '0xc770eefad204b5180df6a14ee197d99d808ee52d'
         ],
-        [
-          ChainTypes.Cosmos,
-          NetworkTypes.COSMOSHUB_MAINNET,
-          AssetNamespace.Slip44,
-          AssetReference.Cosmos
-        ],
-        [
-          ChainTypes.Cosmos,
-          NetworkTypes.COSMOSHUB_VEGA,
-          AssetNamespace.Slip44,
-          AssetReference.Cosmos
-        ],
+        [ChainTypes.Cosmos, NetworkTypes.COSMOSHUB_MAINNET, slip44, ASSET_REFERENCE.Cosmos],
+        [ChainTypes.Cosmos, NetworkTypes.COSMOSHUB_VEGA, slip44, ASSET_REFERENCE.Cosmos],
+        [ChainTypes.Osmosis, NetworkTypes.OSMOSIS_MAINNET, slip44, ASSET_REFERENCE.Osmosis],
+        [ChainTypes.Osmosis, NetworkTypes.OSMOSIS_TESTNET, slip44, ASSET_REFERENCE.Osmosis],
         [
           ChainTypes.Osmosis,
           NetworkTypes.OSMOSIS_MAINNET,
-          AssetNamespace.Slip44,
-          AssetReference.Osmosis
-        ],
-        [
-          ChainTypes.Osmosis,
-          NetworkTypes.OSMOSIS_TESTNET,
-          AssetNamespace.Slip44,
-          AssetReference.Osmosis
-        ],
-        [
-          ChainTypes.Osmosis,
-          NetworkTypes.OSMOSIS_MAINNET,
-          AssetNamespace.IBC,
+          ibc,
           '346786EA82F41FE55FAD14BF69AD8BA9B36985406E43F3CB23E6C45A285A9593'
         ],
-        [ChainTypes.Osmosis, NetworkTypes.OSMOSIS_MAINNET, AssetNamespace.NATIVE, 'uion']
+        [ChainTypes.Osmosis, NetworkTypes.OSMOSIS_MAINNET, native, 'uion']
       ])(
         'returns a AssetId from the result of fromAssetId for %s',
         (
@@ -339,8 +330,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Ethereum)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Ethereum)
     })
 
     it('can return chain, network from eth AssetId on ropsten', () => {
@@ -348,8 +339,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.ETH_ROPSTEN)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Ethereum)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Ethereum)
     })
 
     it('can return chain, network from bitcoin AssetId on mainnet', () => {
@@ -357,8 +348,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Bitcoin)
       expect(network).toEqual(NetworkTypes.MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Bitcoin)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Bitcoin)
     })
 
     it('can return chain, network from bitcoin AssetId on testnet', () => {
@@ -366,8 +357,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Bitcoin)
       expect(network).toEqual(NetworkTypes.TESTNET)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Bitcoin)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Bitcoin)
     })
 
     it('can return chain, network, assetNamespace, assetReference from FOX AssetId on mainnet', () => {
@@ -375,7 +366,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.ERC20)
+      expect(assetNamespace).toEqual('erc20')
       expect(assetReference).toEqual('0xc770eefad204b5180df6a14ee197d99d808ee52d')
     })
 
@@ -384,7 +375,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.ETH_ROPSTEN)
-      expect(assetNamespace).toEqual(AssetNamespace.ERC20)
+      expect(assetNamespace).toEqual('erc20')
       expect(assetReference).toEqual('0xc770eefad204b5180df6a14ee197d99d808ee52d')
     })
 
@@ -393,7 +384,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.ETH_ROPSTEN)
-      expect(assetNamespace).toEqual(AssetNamespace.ERC721)
+      expect(assetNamespace).toEqual('erc721')
       expect(assetReference).toEqual('0xc770eefad204b5180df6a14ee197d99d808ee52d')
     })
 
@@ -402,7 +393,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Ethereum)
       expect(network).toEqual(NetworkTypes.ETH_ROPSTEN)
-      expect(assetNamespace).toEqual(AssetNamespace.ERC20)
+      expect(assetNamespace).toEqual('erc20')
       expect(assetReference).toEqual('0xc770eefad204b5180df6a14ee197d99d808ee52d')
     })
 
@@ -411,8 +402,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Cosmos)
       expect(network).toEqual(NetworkTypes.COSMOSHUB_MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Cosmos)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Cosmos)
     })
 
     it('can parse an osmosis native token', () => {
@@ -420,8 +411,8 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Osmosis)
       expect(network).toEqual(NetworkTypes.OSMOSIS_MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.Slip44)
-      expect(assetReference).toEqual(AssetReference.Osmosis)
+      expect(assetNamespace).toEqual('slip44')
+      expect(assetReference).toEqual(ASSET_REFERENCE.Osmosis)
     })
 
     it('can parse an osmosis ibc token', () => {
@@ -430,7 +421,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Osmosis)
       expect(network).toEqual(NetworkTypes.OSMOSIS_MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.IBC)
+      expect(assetNamespace).toEqual('ibc')
       expect(assetReference).toEqual(
         '346786EA82F41FE55FAD14BF69AD8BA9B36985406E43F3CB23E6C45A285A9593'
       )
@@ -441,7 +432,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Osmosis)
       expect(network).toEqual(NetworkTypes.OSMOSIS_MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.CW20)
+      expect(assetNamespace).toEqual('cw20')
       expect(assetReference).toEqual('canlab')
     })
 
@@ -450,7 +441,7 @@ describe('assetId', () => {
       const { chain, network, assetNamespace, assetReference } = fromAssetId(AssetId)
       expect(chain).toEqual(ChainTypes.Osmosis)
       expect(network).toEqual(NetworkTypes.OSMOSIS_MAINNET)
-      expect(assetNamespace).toEqual(AssetNamespace.CW721)
+      expect(assetNamespace).toEqual('cw721')
       expect(assetReference).toEqual('osmokitty')
     })
 

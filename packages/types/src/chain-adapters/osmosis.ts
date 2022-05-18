@@ -1,11 +1,5 @@
-export type BuildTxInput = {
-  gas: string
-}
+import { cosmos } from '.'
 
-export type Account = {
-  sequence: number
-}
+export type Account = cosmos.Account
 
-export type FeeData = {
-  gasLimit: string
-}
+export type FeeData = cosmos.FeeData

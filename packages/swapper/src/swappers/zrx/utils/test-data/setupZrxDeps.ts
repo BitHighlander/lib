@@ -9,7 +9,6 @@ export const chainAdapterMockFuncs = {
   buildSendTransaction: jest.fn(() => Promise.resolve({ txToSign: {} })),
   signTransaction: jest.fn(() => Promise.resolve('signedTx')),
   broadcastTransaction: jest.fn(() => Promise.resolve('broadcastedTx')),
-  getInfo: jest.fn(() => Promise.resolve({ data: { network: 'mainnet' } })),
   getAddress: jest.fn(() => Promise.resolve('address')),
   getAccount: jest.fn(() =>
     Promise.resolve({
@@ -25,7 +24,8 @@ export const chainAdapterMockFuncs = {
 
 // @ts-ignore
 ChainAdapterManager.mockImplementation(() => ({
-  byChain: jest.fn(() => chainAdapterMockFuncs)
+  byChain: jest.fn(() => chainAdapterMockFuncs),
+  byChainId: jest.fn(() => chainAdapterMockFuncs)
 }))
 
 export const setupZrxDeps = () => {

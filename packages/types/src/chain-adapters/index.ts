@@ -1,10 +1,17 @@
-import { BTCSignTx, CosmosSignTx, ETHSignTx, HDWallet, OsmosisSignTx } from '@shapeshiftoss/hdwallet-core'
+import {
+  BTCSignTx,
+  CosmosSignTx,
+  ETHSignTx,
+  HDWallet,
+  OsmosisSignTx
+} from '@shapeshiftoss/hdwallet-core'
 
 import { BIP44Params, ChainTypes, UtxoAccountType } from '../base'
 import { ChainSpecific } from '../utility'
 import * as bitcoin from './bitcoin'
 import * as cosmos from './cosmos'
 import * as ethereum from './ethereum'
+import * as osmosis from './osmosis'
 export { bitcoin, cosmos, ethereum }
 
 type ChainSpecificAccount<T> = ChainSpecific<
@@ -13,7 +20,7 @@ type ChainSpecificAccount<T> = ChainSpecific<
     [ChainTypes.Ethereum]: ethereum.Account
     [ChainTypes.Bitcoin]: bitcoin.Account
     [ChainTypes.Cosmos]: cosmos.Account
-    [ChainTypes.Osmosis]: cosmos.Account
+    [ChainTypes.Osmosis]: osmosis.Account
   }
 >
 
@@ -36,26 +43,15 @@ export enum FeeDataKey {
   Fast = 'fast'
 }
 
-type ChainSpecificQuoteFeeData<T1> = ChainSpecific<
-  T1,
-  {
-    [ChainTypes.Ethereum]: ethereum.QuoteFeeData
-  }
->
-
 type ChainSpecificFeeData<T> = ChainSpecific<
   T,
   {
     [ChainTypes.Ethereum]: ethereum.FeeData
     [ChainTypes.Bitcoin]: bitcoin.FeeData
     [ChainTypes.Cosmos]: cosmos.FeeData
-    [ChainTypes.Osmosis]: cosmos.FeeData
+    [ChainTypes.Osmosis]: osmosis.FeeData
   }
 >
-
-export type QuoteFeeData<T1 extends ChainTypes> = {
-  fee: string
-} & ChainSpecificQuoteFeeData<T1>
 
 // ChainTypes.Ethereum:
 // feePerUnit = gasPrice

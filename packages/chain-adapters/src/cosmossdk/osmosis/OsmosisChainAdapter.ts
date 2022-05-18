@@ -1,8 +1,7 @@
 import {
+  ASSET_REFERENCE,
   AssetId,
-  AssetNamespace,
-  AssetReference,
-  ChainReference,
+  CHAIN_REFERENCE,
   fromChainId,
   toAssetId
 } from '@shapeshiftoss/caip'
@@ -17,7 +16,8 @@ import * as unchained from '@shapeshiftoss/unchained-client'
 import { bech32 } from 'bech32'
 
 import { ErrorHandler } from '../../error/ErrorHandler'
-import { bnOrZero, toPath } from '../../utils'
+import { toPath } from '../../utils'
+import { bnOrZero } from '../../utils/bignumber'
 import { ChainAdapterArgs, CosmosSdkBaseAdapter } from '../CosmosSdkBaseAdapter'
 
 export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
@@ -42,13 +42,16 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
     this.assetId = toAssetId({
       chain,
       network,
-      assetNamespace: AssetNamespace.Slip44,
-      assetReference: AssetReference.Osmosis
+      assetNamespace: 'slip44',
+      assetReference: ASSET_REFERENCE.Osmosis
     })
 
-    this.parser = new unchained.osmosis.TransactionParser({ chainId: this.chainId })
+    this.parser = new unchained.cosmos.TransactionParser({ chainId: this.chainId })
   }
 
+  getFeeAssetId(): AssetId {
+    return 'cosmos:osmosis-1/slip44:118'
+  }
   getType(): ChainTypes.Osmosis {
     return ChainTypes.Osmosis
   }
@@ -160,7 +163,7 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
       const txToSign: OsmosisSignTx = {
         addressNList,
         tx: utx,
-        chain_id: ChainReference.OsmosisMainnet,
+        chain_id: CHAIN_REFERENCE.OsmosisMainnet,
         account_number: account.chainSpecific.accountNumber,
         sequence: account.chainSpecific.sequence
       }
@@ -232,7 +235,7 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
       const txToSign: OsmosisSignTx = {
         addressNList,
         tx: utx,
-        chain_id: ChainReference.OsmosisMainnet,
+        chain_id: CHAIN_REFERENCE.OsmosisMainnet,
         account_number: account.chainSpecific.accountNumber,
         sequence: account.chainSpecific.sequence
       }
@@ -303,7 +306,7 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
       const txToSign: OsmosisSignTx = {
         addressNList,
         tx: utx,
-        chain_id: ChainReference.OsmosisMainnet,
+        chain_id: CHAIN_REFERENCE.OsmosisMainnet,
         account_number: account.chainSpecific.accountNumber,
         sequence: account.chainSpecific.sequence
       }
@@ -368,7 +371,7 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
       const txToSign: OsmosisSignTx = {
         addressNList,
         tx: utx,
-        chain_id: ChainReference.OsmosisMainnet,
+        chain_id: CHAIN_REFERENCE.OsmosisMainnet,
         account_number: account.chainSpecific.accountNumber,
         sequence: account.chainSpecific.sequence
       }
@@ -447,7 +450,7 @@ export class ChainAdapter extends CosmosSdkBaseAdapter<ChainTypes.Osmosis> {
       const txToSign: OsmosisSignTx = {
         addressNList,
         tx: utx,
-        chain_id: ChainReference.OsmosisMainnet,
+        chain_id: CHAIN_REFERENCE.OsmosisMainnet,
         account_number: account.chainSpecific.accountNumber,
         sequence: account.chainSpecific.sequence
       }

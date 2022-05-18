@@ -6,12 +6,8 @@ import WAValidator from 'multicoin-address-validator'
 
 import { ChainAdapter as IChainAdapter } from '../api'
 import { ErrorHandler } from '../error/ErrorHandler'
-import {
-  accountTypeToScriptType,
-  bnOrZero,
-  convertXpubVersion,
-  toRootDerivationPath
-} from '../utils'
+import { accountTypeToScriptType, convertXpubVersion, toRootDerivationPath } from '../utils'
+import { bnOrZero } from '../utils/bignumber'
 
 export type UTXOChainTypes = ChainTypes.Bitcoin // to be extended in the future to include other UTXOs
 
@@ -60,7 +56,7 @@ export abstract class UTXOBaseAdapter<T extends UTXOChainTypes> implements IChai
   abstract closeTxs(): void
   abstract getType(): T
   abstract getSupportedAccountTypes(): UtxoAccountType[]
-
+  abstract getFeeAssetId(): AssetId
   abstract getTxHistory(
     input: chainAdapters.TxHistoryInput
   ): Promise<chainAdapters.TxHistoryResponse<T>>

@@ -1,10 +1,4 @@
-import {
-  AssetNamespace,
-  AssetReference,
-  ChainId,
-  fromChainId,
-  toAssetId
-} from '@shapeshiftoss/caip'
+import { ASSET_REFERENCE, AssetId, ChainId, fromChainId, toAssetId } from '@shapeshiftoss/caip'
 import {
   bip32ToAddressNList,
   BTCOutputAddressType,
@@ -70,13 +64,17 @@ export class ChainAdapter
     this.assetId = toAssetId({
       chain,
       network,
-      assetNamespace: AssetNamespace.Slip44,
-      assetReference: AssetReference.Bitcoin
+      assetNamespace: 'slip44',
+      assetReference: ASSET_REFERENCE.Bitcoin
     })
   }
 
   getType(): ChainTypes.Bitcoin {
     return ChainTypes.Bitcoin
+  }
+
+  getFeeAssetId(): AssetId {
+    return 'bip122:000000000019d6689c085ae165831e93/slip44:0'
   }
 
   getSupportedAccountTypes() {
