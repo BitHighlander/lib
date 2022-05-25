@@ -83,9 +83,12 @@ export interface TradeQuote<C extends SupportedChainIds> extends TradeBase<C> {
 }
 
 export interface Trade<C extends SupportedChainIds> extends TradeBase<C> {
+  receiveAddress: string
+}
+
+export interface ZrxTrade<C extends SupportedChainIds> extends Trade<C> {
   txData: string
   depositAddress: string
-  receiveAddress: string
 }
 
 export type ExecuteTradeInput<C extends SupportedChainIds> = {
@@ -115,20 +118,20 @@ export type ApprovalNeededInput<C extends SupportedChainIds> = {
 // Swap Errors
 export enum SwapErrorTypes {
   ALLOWANCE_REQUIRED_FAILED = 'ALLOWANCE_REQUIRED_FAILED',
-  CHECK_APPROVAL_FAILED = 'CHECK_APPROVAL_FAILED',
   APPROVE_INFINITE_FAILED = 'APPROVE_INFINITE_FAILED',
   BUILD_TRADE_FAILED = 'BUILD_TRADE_FAILED',
+  CHECK_APPROVAL_FAILED = 'CHECK_APPROVAL_FAILED',
   EXECUTE_TRADE_FAILED = 'EXECUTE_TRADE_FAILED',
   GRANT_ALLOWANCE_FAILED = 'GRANT_ALLOWANCE_FAILED',
   MANAGER_ERROR = 'MANAGER_ERROR',
   MIN_MAX_FAILED = 'MIN_MAX_FAILED',
+  RESPONSE_ERROR = 'RESPONSE_ERROR',
   SIGN_AND_BROADCAST_FAILED = 'SIGN_AND_BROADCAST_FAILED',
   TRADE_QUOTE_FAILED = 'TRADE_QUOTE_FAILED',
   UNSUPPORTED_PAIR = 'UNSUPPORTED_PAIR',
   USD_RATE_FAILED = 'USD_RATE_FAILED',
   UNSUPPORTED_CHAIN = 'UNSUPPORTED_CHAIN',
-  VALIDATION_FAILED = 'VALIDATION_FAILED',
-  RESPONSE_ERROR = 'RESPONSE_ERROR'
+  VALIDATION_FAILED = 'VALIDATION_FAILED'
 }
 
 export interface Swapper {

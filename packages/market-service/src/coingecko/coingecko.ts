@@ -1,4 +1,4 @@
-import { adapters, fromAssetId } from '@shapeshiftoss/caip'
+import { adapters, CHAIN_NAMESPACE, fromAssetId } from '@shapeshiftoss/caip'
 import {
   ChainTypes,
   FindAllMarketArgs,
@@ -30,6 +30,7 @@ type CoinGeckoAssetData = {
     total_volume: { [key: string]: string }
     high_24h: { [key: string]: string }
     low_24h: { [key: string]: string }
+    circulating_supply: string
     total_supply: string
     max_supply: string
     price_change_percentage_24h: number
@@ -74,7 +75,11 @@ export class CoinGeckoMarketService implements MarketService {
               price: curWithoutId.current_price.toString(),
               marketCap: curWithoutId.market_cap.toString(),
               volume: curWithoutId.total_volume.toString(),
-              changePercent24Hr: curWithoutId.price_change_percentage_24h
+              changePercent24Hr: curWithoutId.price_change_percentage_24h,
+              supply: curWithoutId.circulating_supply.toString(),
+              maxSupply: curWithoutId.max_supply
+                ? curWithoutId.max_supply.toString()
+                : curWithoutId.total_supply?.toString()
             }
             return acc
           } catch {
@@ -89,8 +94,8 @@ export class CoinGeckoMarketService implements MarketService {
   findByAssetId = async ({ assetId }: MarketDataArgs): Promise<MarketData | null> => {
     try {
       if (!adapters.assetIdToCoingecko(assetId)) return null
-      const { chain, assetReference } = fromAssetId(assetId)
-      const isToken = chain === ChainTypes.Ethereum && assetReference.startsWith('0x')
+      const { chainNamespace, assetReference } = fromAssetId(assetId)
+      const isToken = chainNamespace === CHAIN_NAMESPACE.Ethereum && assetReference.startsWith('0x')
       const id = isToken ? 'ethereum' : adapters.assetIdToCoingecko(assetId)
       const contractUrl = isToken ? `/contract/${assetReference}` : ''
 
@@ -100,11 +105,19 @@ export class CoinGeckoMarketService implements MarketService {
 
       const currency = 'usd'
       const marketData = data?.market_data
+      /* max_supply may be null on coingecko while available on other sources (coincap)
+      hence choosing to take value from total_supply if existing
+      Also a lot of time when max_supply is null, total_supply is the maximum supply on coingecko
+      We can reassess in the future the degree of precision we want on that field */
       return {
         price: marketData?.current_price?.[currency],
         marketCap: marketData?.market_cap?.[currency],
         changePercent24Hr: marketData?.price_change_percentage_24h,
-        volume: marketData?.total_volume?.[currency]
+        volume: marketData?.total_volume?.[currency],
+        supply: marketData?.circulating_supply,
+        maxSupply: marketData?.max_supply
+          ? marketData?.max_supply
+          : marketData?.total_supply?.toString()
       }
     } catch (e) {
       console.warn(e)
@@ -118,8 +131,8 @@ export class CoinGeckoMarketService implements MarketService {
   }: PriceHistoryArgs): Promise<HistoryData[]> => {
     if (!adapters.assetIdToCoingecko(assetId)) return []
     try {
-      const { chain, assetReference } = fromAssetId(assetId)
-      const isToken = chain === ChainTypes.Ethereum && assetReference.startsWith('0x')
+      const { chainNamespace, assetReference } = fromAssetId(assetId)
+      const isToken = chainNamespace === CHAIN_NAMESPACE.Ethereum && assetReference.startsWith('0x')
       const id = isToken ? 'ethereum' : adapters.assetIdToCoingecko(assetId)
       const contract = isToken ? `/contract/${assetReference}` : ''
 

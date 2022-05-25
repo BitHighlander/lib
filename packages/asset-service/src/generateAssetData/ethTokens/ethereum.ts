@@ -10,6 +10,7 @@ import { generateTrustWalletUrl } from '../../service/TrustWalletService'
 import { ethereum } from '../baseAssets'
 import { getFoxyToken } from './foxy'
 import { getUniswapTokens } from './uniswap'
+import { getUniswapV2Pools } from './uniswapV2Pools'
 import {
   getIronBankTokens,
   getUnderlyingVaultTokens,
@@ -19,22 +20,31 @@ import {
 
 export const addTokensToEth = async (): Promise<BaseAsset> => {
   const baseAsset = ethereum
-  const [ethTokens, yearnVaults, ironBankTokens, zapperTokens, underlyingTokens, foxyToken] =
-    await Promise.all([
-      getUniswapTokens(),
-      getYearnVaults(),
-      getIronBankTokens(),
-      getZapperTokens(),
-      getUnderlyingVaultTokens(),
-      getFoxyToken()
-    ])
+  const [
+    ethTokens,
+    yearnVaults,
+    ironBankTokens,
+    zapperTokens,
+    underlyingTokens,
+    foxyToken,
+    uniV2Token
+  ] = await Promise.all([
+    getUniswapTokens(),
+    getYearnVaults(),
+    getIronBankTokens(),
+    getZapperTokens(),
+    getUnderlyingVaultTokens(),
+    getFoxyToken(),
+    getUniswapV2Pools()
+  ])
   const tokens = [
     ...ethTokens,
     ...yearnVaults,
     ...ironBankTokens,
     ...zapperTokens,
     ...underlyingTokens,
-    ...foxyToken
+    ...foxyToken,
+    ...uniV2Token
   ]
   const uniqueTokens = orderBy(uniqBy(tokens, 'assetId'), 'assetId') // Remove dups and order for PR readability
   const batchSize = 100 // tune this to keep rate limiting happy
@@ -43,8 +53,8 @@ export const addTokensToEth = async (): Promise<BaseAsset> => {
   for (const [i, batch] of tokenBatches.entries()) {
     console.info(`processing batch ${i + 1} of ${tokenBatches.length}`)
     const promises = batch.map(async (token) => {
-      const { chain } = fromAssetId(token.assetId)
-      const { info } = generateTrustWalletUrl({ chain, tokenId: token.tokenId })
+      const { chainNamespace } = fromAssetId(token.assetId)
+      const { info } = generateTrustWalletUrl({ chainNamespace, tokenId: token.tokenId })
       return axios.head(info) // return promise
     })
     const result = await Promise.allSettled(promises)
@@ -70,8 +80,11 @@ export const addTokensToEth = async (): Promise<BaseAsset> => {
         }
         return uniqueTokens[key] // token without modified icon
       } else {
-        const { chain } = fromAssetId(uniqueTokens[key].assetId)
-        const { icon } = generateTrustWalletUrl({ chain, tokenId: uniqueTokens[key].tokenId })
+        const { chainNamespace } = fromAssetId(uniqueTokens[key].assetId)
+        const { icon } = generateTrustWalletUrl({
+          chainNamespace,
+          tokenId: uniqueTokens[key].tokenId
+        })
         return { ...uniqueTokens[key], icon }
       }
     })
