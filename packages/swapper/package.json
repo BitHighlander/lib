@@ -20,7 +20,9 @@
     "prepare": "yarn build",
     "test": "jest test src/swappers/osmosis/OsmoSwapper.test.ts",
     "type-check": "tsc --project ./tsconfig.build.json --noEmit",
-    "swapcli": "yarn build && node dist/swappercli.js ATOM OSMO 0.01"
+    "swapcli": "yarn build && node dist/swappercli.js ATOM OSMO 0.01",
+    "swapcli-atom": "yarn build && node dist/swappercli.js ATOM OSMO 0.01",
+    "swapcli-osmo": "yarn build && node dist/swappercli.js OSMO ATOM 0.01"
   },
   "dependencies": {
     "@types/wait-promise": "^0.4.0",

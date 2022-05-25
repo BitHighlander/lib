@@ -230,7 +230,7 @@ export class OsmoSwapper implements Swapper {
           if (txInfo?.tx_response?.height) confirmed = true
         } catch (e) {
           let timeNow = new Date().getTime()
-          let duration = timeStart - timeNow
+          let duration = timeNow - timeStart
           console.info('txid Not found yet! duration: '+duration / 1000)
         }
         await sleep(3000)
@@ -302,8 +302,8 @@ export class OsmoSwapper implements Swapper {
       },
       wallet
     }
-    // console.info('signTxInput: ', signTxInput)
-    // console.info('signTxInput: ', JSON.stringify(signTxInput))
+    console.info('signTxInput: ', signTxInput)
+    console.info('signTxInput: ', JSON.stringify(signTxInput))
     const signed = await osmosisAdapter.signTransaction(signTxInput)
     console.info('signed: ', signed)
 
@@ -320,6 +320,43 @@ export class OsmoSwapper implements Swapper {
     })
     txid1 = txid1.data?.tx_response.txhash
     console.info('txid1: ', txid1)
+
+    if(pair === 'OSMO_ATOM'){
+      //wait till confirmed
+      console.info('txid1: ', txid1)
+      let confirmed = false
+      let timeStart = new Date().getTime()
+      while (!confirmed) {
+        //get info
+        try {
+          let txInfo = await axios({
+            method: 'GET',
+            url: `${osmoUrl}/cosmos/tx/v1beta1/txs/${txid1}`
+          })
+          txInfo = txInfo.data
+          console.info('txInfo: ', txInfo)
+
+          //@ts-ignore
+          if (txInfo?.tx_response?.height) confirmed = true
+        } catch (e) {
+          let timeNow = new Date().getTime()
+          let duration = timeStart - timeNow
+          console.info('txid Not found yet! duration: '+duration / 1000)
+        }
+        await sleep(3000)
+      }
+
+      //perform IBC deposit
+      const transfer = {
+        sender: sellAddress,
+        receiver: buyAddress,
+        amount: sellAmount
+      }
+      const txid = await this.performIbcTransfer(transfer, cosmosAdapter, wallet)
+      console.info('txid: ', txid)
+
+
+    }
 
     // @ts-ignore
     return { txid: txid1 || 'error' }
