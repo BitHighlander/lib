@@ -1,6 +1,8 @@
 import {
   AssetId,
+  //@ts-ignore
   AssetNamespace,
+  //@ts-ignore
   AssetReference,
   ChainId,
   fromChainId,
@@ -26,7 +28,9 @@ export class TransactionParser {
 
     this.assetId = toAssetId({
       ...fromChainId(this.chainId),
+      //@ts-ignore
       assetNamespace: AssetNamespace.Slip44,
+      //@ts-ignore
       assetReference: AssetReference.Osmosis
     })
   }

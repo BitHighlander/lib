@@ -1,4 +1,4 @@
-import { CAIP19 } from '@shapeshiftoss/caip'
+// import { CAIP19 } from '@shapeshiftoss/caip'
 // @ts-ignore
 import {
   ChainAdapterManager,
@@ -17,13 +17,13 @@ import {
 import {
   ApprovalNeededOutput,
   Asset,
-  BuildQuoteTxInput,
-  ChainTypes,
-  ExecQuoteInput,
+  // BuildQuoteTxInput,
+  // ChainTypes,
+  // ExecQuoteInput,
   ExecQuoteOutput,
-  GetQuoteInput,
+  // GetQuoteInput,
   MinMaxOutput,
-  Quote,
+  // Quote,
   SwapperType
   // @ts-ignore
 } from '@shapeshiftoss/types'
@@ -34,10 +34,10 @@ import {
   BuildTradeInput,
   BuyAssetBySellIdInput,
   CommonTradeInput,
-  ExecuteTradeInput,
+  // ExecuteTradeInput,
   Swapper,
-  Trade,
-  TradeQuote
+  // Trade,
+  // TradeQuote
 } from '../../api'
 import { DEFAULT_SOURCE } from './constants'
 import { getRateInfo, IsymbolDenomMapping, symbolDenomMapping } from './OsmoService'
@@ -73,7 +73,7 @@ export class OsmoSwapper implements Swapper {
     this.supportAssets = ['cosmos:cosmoshub-4/slip44:118', 'cosmos:osmosis-1/slip44:118']
   }
 
-  async getTradeQuote(input: CommonTradeInput): Promise<TradeQuote<ChainTypes>> {
+  async getTradeQuote(input: CommonTradeInput): Promise<any> {
     const { sellAsset, buyAsset, sellAmount } = input
 
     if (!sellAmount) {
@@ -102,7 +102,7 @@ export class OsmoSwapper implements Swapper {
     }
   }
 
-  async buildTrade(args: BuildTradeInput): Promise<Trade<ChainTypes>> {
+  async buildTrade(args: BuildTradeInput): Promise<any> {
     const { sellAsset, buyAsset, sellAmount } = args
 
     if (!sellAmount) {
@@ -122,7 +122,7 @@ export class OsmoSwapper implements Swapper {
       feeData: { fee: '100' },
       rate,
       receiveAddress: '',
-      sellAmount: '',
+      sellAmount,
       sellAsset,
       sellAssetAccountId: '0',
       sources: [{ name: 'Osmosis', proportion: '100' }],
@@ -130,7 +130,7 @@ export class OsmoSwapper implements Swapper {
     }
   }
 
-  async executeTrade(args: ExecuteTradeInput<ChainTypes>): Promise<ExecQuoteOutput> {
+  async executeTrade(args: any): Promise<ExecQuoteOutput> {
     console.info('args: ', args)
     // const {
     //   // @ts-ignore
@@ -308,7 +308,7 @@ export class OsmoSwapper implements Swapper {
     throw new Error('OsmoSwapper: getUsdRate unimplemented')
   }
 
-  getMinMax(input: GetQuoteInput): Promise<MinMaxOutput> {
+  getMinMax(input: any): Promise<MinMaxOutput> {
     console.info(input)
     return getMin()
   }
@@ -643,10 +643,6 @@ export class OsmoSwapper implements Swapper {
   //
   // }
 
-  getDefaultPair(): [CAIP19, CAIP19] {
-    throw new Error('OsmoSwapper: getDefaultPair unimplemented')
-  }
-
   async approvalNeeded(): Promise<ApprovalNeededOutput> {
     const result = { approvalNeeded: false }
     return result
@@ -656,13 +652,13 @@ export class OsmoSwapper implements Swapper {
     throw new Error('OsmoSwapper: approveInfinite unimplemented')
   }
 
-  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): CAIP19[] {
+  filterBuyAssetsBySellAssetId(args: BuyAssetBySellIdInput): any[] {
     const { sellAssetId } = args
     if (!this.supportAssets.includes(sellAssetId)) return []
     return this.supportAssets
   }
 
-  filterAssetIdsBySellable(): CAIP19[] {
+  filterAssetIdsBySellable(): any[] {
     return this.supportAssets
   }
 }

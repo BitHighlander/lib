@@ -1,6 +1,9 @@
-import { Asset, AssetDataSource, ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
+import { AssetDataSource, ChainTypes, NetworkTypes } from '@shapeshiftoss/types'
 
-export const ATOM: Asset = {
+export const ATOM: any = {
+  description: "", tokenId: "",
+  contractType: undefined,
+  isTrustedDescription: false,
   assetId: 'cosmos:cosmoshub-4/slip44:118',
   chainId: 'cosmos:cosmoshub-4',
   caip19: 'cosmos:cosmoshub-4/slip44:118',
@@ -22,7 +25,7 @@ export const ATOM: Asset = {
   symbol: 'ATOM'
 }
 
-export const OSMO: Asset = {
+export const OSMO: any = {
   assetId: 'cosmos:osmosis-1/slip44:118',
   chainId: 'cosmos:osmosis-1',
   caip19: 'cosmos:osmosis-1/slip44:118',
