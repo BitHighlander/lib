@@ -146,7 +146,12 @@ const main = async (): Promise<void> => {
     return
   }
 
-  console.info('quote = ', JSON.stringify(quote))
+  // console.info('quote = ', quote)
+  console.info('buyAsset:  ', quote.buyAsset.symbol)
+  console.info('sellAsset:  ', quote.sellAsset.symbol)
+  console.info('sellAmount:  ', quote.sellAmount)
+  console.info('buyAmount:  ', quote.buyAmount)
+
 
   if (!quote.success) {
     console.error('Obtaining the quote failed: ', quote.statusReason)

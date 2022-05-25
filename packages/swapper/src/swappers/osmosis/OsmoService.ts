@@ -6,6 +6,7 @@ import axios from 'axios'
 import { find } from 'lodash'
 import { SwapError } from '../../api'
 import BigNumber from 'bignumber.js'
+// @ts-ignore
 import { HDWallet, OsmosisWallet } from '@shapeshiftoss/hdwallet-core'
 // import { OsmosisChainAdapter } from '@shapeshiftoss/platform.chain-adapters'
 // import { ChainAdapterManager } from '@shapeshiftoss/chain-adapters'
@@ -38,7 +39,7 @@ const findPool = async (sellAsset: any, buyAsset: any) => {
 
     console.log("poolsUrl: ",poolsUrl)
     const poolsResponse = (await axios.get(poolsUrl))
-    console.log("poolsResponse: ",poolsResponse)
+    // console.log("poolsResponse: ",poolsResponse)
 
     const foundPool = find(poolsResponse.data.pools, (pool) => {
         const token0Denom = pool.poolAssets[0].token.denom
@@ -94,18 +95,18 @@ export const getRateInfo = async (sellAsset: any, buyAsset: any, sellAmount: str
     return getInfoFromPool(sellAmount, pool, sellAssetIndex, buyAssetIndex)
 }
 
-const txStatus = async (txid: string, baseUrl: string): Promise<string> => {
-    try {
-        const txResponse = await axios.get(`${baseUrl}/txs/${txid}`)
-        if (!txResponse?.data?.codespace && !!txResponse?.data?.gas_used) return 'success'
-        if (txResponse?.data?.codespace) return 'failed'
-        // eslint-disable-next-line no-empty
-    } catch (e) {}
-    return 'not found'
-}
+// const txStatus = async (txid: string, baseUrl: string): Promise<string> => {
+//     try {
+//         const txResponse = await axios.get(`${baseUrl}/txs/${txid}`)
+//         if (!txResponse?.data?.codespace && !!txResponse?.data?.gas_used) return 'success'
+//         if (txResponse?.data?.codespace) return 'failed'
+//         // eslint-disable-next-line no-empty
+//     } catch (e) {}
+//     return 'not found'
+// }
 
-const atomChannelBalance = async (address: string) => {
-    const osmoResponseBalance = await axios.get(`${osmoUrl}/bank/balances/${address}`)
+export const getAtomChannelBalance = async (address: string) => {
+    const osmoResponseBalance = await axios.get(`${osmoUrl}bank/balances/${address}`)
     let toAtomChannelBalance = 0
     try {
         const { amount } = find(
@@ -119,182 +120,45 @@ const atomChannelBalance = async (address: string) => {
     return toAtomChannelBalance
 }
 
-const pollForAtomChannelBalance = async (address: string): Promise<number> => {
-    console.log('pollForAtomChannelBalance')
-    return new Promise((resolve, reject) => {
-        const timeout = 120000 // 2 mins
-        const startTime = Date.now()
-        const interval = 5000 // 5 seconds
+// const pollForAtomChannelBalance = async (address: string): Promise<unknown> => {
+//     console.log('pollForAtomChannelBalance')
+//     return new Promise((resolve, reject) => {
+//         const timeout = 120000 // 2 mins
+//         const startTime = Date.now()
+//         const interval = 5000 // 5 seconds
+//
+//         const poll = async function() {
+//             const balance = await atomChannelBalance(address)
+//             if (balance > 0) {
+//                 console.log('returning balane ', balance)
+//                 resolve(balance)
+//             } else if ((Date.now() - startTime) > timeout) {
+//                 reject(new Error(`Couldnt find channel balance for ${address}`))
+//             } else {
+//                 setTimeout(poll, interval)
+//             }
+//         }
+//         poll()
+//     })
+// }
+//
+// const pollForComplete = async (txid: string, baseUrl: string): Promise<unknown> => {
+//     return new Promise((resolve, reject) => {
+//         const timeout = 120000 // 2 mins
+//         const startTime = Date.now()
+//         const interval = 5000 // 5 seconds
+//
+//         const poll = async function() {
+//             const status = await txStatus(txid, baseUrl)
+//             if (status === 'success') {
+//                 resolve(status)
+//             } else if ((Date.now() - startTime) > timeout) {
+//                 reject(new Error(`Couldnt find tx ${txid}`))
+//             } else {
+//                 setTimeout(poll, interval)
+//             }
+//         }
+//         poll()
+//     })
+// }
 
-        const poll = async function() {
-            const balance = await atomChannelBalance(address)
-            if (balance > 0) {
-                console.log('returning balane ', balance)
-                resolve(balance)
-            } else if ((Date.now() - startTime) > timeout) {
-                reject(new Error(`Couldnt find channel balance for ${address}`))
-            } else {
-                setTimeout(poll, interval)
-            }
-        }
-        poll()
-    })
-}
-
-const pollForComplete = async (txid: string, baseUrl: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const timeout = 120000 // 2 mins
-        const startTime = Date.now()
-        const interval = 5000 // 5 seconds
-
-        const poll = async function() {
-            const status = await txStatus(txid, baseUrl)
-            if (status === 'success') {
-                resolve(status)
-            } else if ((Date.now() - startTime) > timeout) {
-                reject(new Error(`Couldnt find tx ${txid}`))
-            } else {
-                setTimeout(poll, interval)
-            }
-        }
-        poll()
-    })
-}
-
-// Seperate so we can return early txid1 for better UX
-// Callback that waits for tx1 to finish before creating tx2
-export const osmoToAtomCallback = async (txid1: string, sellAddress: string, gas: string, buyAssetDenom: string, buyAddress: string, wallet: HDWallet, accountUrl: string, osmosisAdapter: any, osmoAddressNList: number[]): Promise<any | undefined> => {
-    const pollResult = await pollForComplete(txid1, osmoUrl)
-    if(pollResult !== 'success')
-        throw new Error('first osmo -> atom tx failed')
-
-    if(!sellAddress) throw new SwapError('no sell address')
-    const toAtomChannelBalance = await pollForAtomChannelBalance(sellAddress)
-
-    const atomResponseLatestBlock = await axios.get(`${atomUrl}/blocks/latest`)
-    const atomLatestBlock = atomResponseLatestBlock.data.block.header.height
-
-    const tx2 = {
-        memo: '',
-        fee: {
-            amount: [
-                {
-                    amount: '0', // having a fee here causes error
-                    denom: 'uosmo'
-                }
-            ],
-            gas: gas.toString()
-        },
-        signatures: null,
-        msg: [
-            {
-                type: 'cosmos-sdk/MsgTransfer',
-                value: {
-                    source_port: 'transfer',
-                    source_channel: 'channel-0',
-                    token: {
-                        denom: buyAssetDenom,
-                        amount: String(toAtomChannelBalance)
-                    },
-                    sender: sellAddress,
-                    receiver: buyAddress,
-                    timeout_height: {
-                        revision_number: '4',
-                        revision_height: String(Number(atomLatestBlock)+100)
-                    }
-                }
-            }
-        ]
-    }
-
-    const responseAccount2 = await axios.get(accountUrl)
-    const accountNumber2 = responseAccount2.data.result.value.account_number
-    const sequence2 = responseAccount2.data.result.value.sequence
-
-    const signed2 = await osmosisAdapter.signTransaction(
-        {
-            symbol: 'OSMO',
-            transaction: {
-                tx: tx2,
-                addressNList: osmoAddressNList,
-                chain_id: 'osmosis-1',
-                account_number: accountNumber2,
-                sequence: sequence2
-            }
-        },
-        (wallet as unknown) as OsmosisWallet
-    )
-
-    const broadcastTxInput2 = { tx: signed2, symbol: 'OSMO', amount: '0', network: 'OSMO' }
-
-    const txid2 = await osmosisAdapter.broadcastTransaction(broadcastTxInput2)
-
-    return { txid: txid2 }
-}
-
-export const atomToOsmoCallback = async (txid1: string, buyAddress: string, fee: string, gas: string, buyAssetDenom: string, sellAssetDenom: string, osmoAdapter: any, osmoAddressNList: number[], wallet: HDWallet) => {
-    const pollResult = await pollForComplete(txid1, atomUrl)
-    if(pollResult !== 'success')
-        throw new Error('first atom -> osmo tx failed')
-
-    if(!buyAddress) throw new SwapError('no sell address')
-    const toOsmoChannelBalance = await pollForAtomChannelBalance(buyAddress)
-
-    const tx2 = {
-        memo: '',
-        fee: {
-            amount: [
-                {
-                    amount: fee,
-                    denom: 'uosmo'
-                }
-            ],
-            gas: gas.toString()
-        },
-        signatures: null,
-        msg: [
-            {
-                type: 'osmosis/gamm/swap-exact-amount-in',
-                value: {
-                    sender: buyAddress,
-                    routes: [
-                        {
-                            poolId: '1', // TODO should probably get this from the util pool call
-                            tokenOutDenom: buyAssetDenom
-                        }
-                    ],
-                    tokenIn: {
-                        denom: sellAssetDenom,
-                        amount: String(toOsmoChannelBalance)
-                    },
-                    tokenOutMinAmount: '1' // TODO slippage tolerance
-                }
-            }
-        ]
-    }
-
-    const accountUrl = `${osmoUrl}/auth/accounts/${buyAddress}`
-    const osmoResponseAccount = await axios.get(accountUrl)
-    const osmoAccountNumber = osmoResponseAccount.data.result.value.account_number
-    const osmoSequence = osmoResponseAccount.data.result.value.sequence
-
-    const signed2 = await osmoAdapter.signTransaction(
-        {
-            symbol: 'OSMO',
-            transaction: {
-                tx: tx2,
-                addressNList: osmoAddressNList,
-                chain_id: 'osmosis-1',
-                account_number: osmoAccountNumber,
-                sequence: osmoSequence
-            }
-        },
-        wallet as OsmosisWallet
-    )
-
-    const broadcastTxInput2 = { tx: signed2, symbol: 'OSMO', amount: '0', network: 'OSMO' }
-
-    const txid2 = await osmoAdapter.broadcastTransaction(broadcastTxInput2)
-
-    return { txid: txid2}
-}
