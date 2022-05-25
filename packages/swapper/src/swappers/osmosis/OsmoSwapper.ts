@@ -28,6 +28,7 @@ import {
   // @ts-ignore
 } from '@shapeshiftoss/types'
 import axios from 'axios'
+import { sleep } from 'wait-promise'
 
 // import { getRate } from '../../api'
 import {
@@ -211,6 +212,29 @@ export class OsmoSwapper implements Swapper {
       const txid = await this.performIbcTransfer(transfer, cosmosAdapter, wallet)
       console.info('txid: ', txid)
 
+      //wait till confirmed
+      console.info('txid: ', txid)
+      let confirmed = false
+      let timeStart = new Date().getTime()
+      while (!confirmed) {
+        //get info
+        try {
+          let txInfo = await axios({
+            method: 'GET',
+            url: `${atomUrl}/cosmos/tx/v1beta1/txs/${txid.txid}`
+          })
+          txInfo = txInfo.data
+          console.info('txInfo: ', txInfo)
+
+          //@ts-ignore
+          if (txInfo?.tx_response?.height) confirmed = true
+        } catch (e) {
+          let timeNow = new Date().getTime()
+          let duration = timeStart - timeNow
+          console.info('txid Not found yet! duration: '+duration / 1000)
+        }
+        await sleep(3000)
+      }
     } else if(pair === 'OSMO_ATOM'){
       sellAddress = osmoAddress
       buyAddress = atomAddress
@@ -302,7 +326,7 @@ export class OsmoSwapper implements Swapper {
   }
 
   async performIbcTransfer(input: any, adapter: any, wallet: any): Promise<any> {
-    const { sender, receiver, amount } = input
+    let { sender, receiver, amount } = input
     console.info('performIbcTransfer input: ', input)
 
     // const fee = '100'
@@ -322,7 +346,7 @@ export class OsmoSwapper implements Swapper {
     const atomSequence = atomResponseAccount.data.result.value.sequence
     console.info('atomAccountNumber: ', atomAccountNumber)
     console.info('atomSequence: ', atomSequence)
-
+    amount = amount/1000000
     if (!atomAccountNumber) throw new Error('no atom account number')
 
     const tx1 = {
